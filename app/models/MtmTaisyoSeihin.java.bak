@@ -1,0 +1,254 @@
+package models;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import play.db.ebean.Model;
+
+import com.avaje.ebean.Ebean;
+
+@Entity
+/**
+ * 【WAAS】対象製品
+ *
+ * @author SunForYou.Ltd
+ *
+ */
+public class MtmTaisyoSeihin extends Model {
+
+    /**
+     * 見積No
+     */
+    @Id
+    public String mitumoriNo;
+    /**
+     * 枝番
+     */
+    @Id
+    public long edaban;
+    /**
+     * 製品型番
+     */
+    public String taisyoKataban;
+    /**
+     * 防蝕改造
+     */
+    public String bosyokuKaizo;
+    /**
+     * 防蝕改造単価
+     */
+    public long boKaiTanka;
+    /**
+     * 重防蝕改造
+     */
+    public String jubosyokuKaizo;
+    /**
+     * 重防蝕改造単価
+     */
+    public long juKaiTanka;
+    /**
+     * 耐塩害改造
+     */
+    public String taiengaiKaizo;
+    /**
+     * 耐塩害改造単価
+     */
+    public long taiKaiTanka;
+    /**
+     * 耐重塩害改造
+     */
+    public String taijuengaiKaizo;
+    /**
+     * 耐重塩害改造単価
+     */
+    public long taijuKaiTanka;
+    /**
+     * 重塩害改造
+     */
+    public String jubouseiKaizo;
+    /**
+     * 重塩害改造単価
+     */
+    public long jubouKaiTanka;
+//    /**
+//     * 予備１改造
+//     */
+//    public String yobi1Kaizo;
+//    /**
+//     * 予備１改造単価
+//     */
+//    public long yobi1KaizoTanka;
+//    /**
+//     * 予備２改造
+//     */
+//    public String yobi2Kaizo;
+//    /**
+//     * 予備２改造単価
+//     */
+//    public long yobi2KaizoTanka;
+    /**
+     * 数量
+     */
+    public long suryo;
+    /**
+     * マシン番号
+     */
+    public String mashinNo;
+    /**
+     * 入荷予定日
+     */
+    public String nyukaYotei;
+    /**
+     * 配セ戻入日
+     */
+    public String haiseReinyuDay;
+    /**
+     * 製造完了日
+     */
+    public String seizou_kanryou_day;
+    /**
+     * センター計上日
+     */
+    public String senta_keijou_day;
+    /**
+     * 更新ユーザID
+     */
+    public String koshinUid;
+    /**
+     * 更新プログラムID
+     */
+    public String koshinPid;
+    /**
+     * 更新日付
+     */
+    public Timestamp koushinDate;
+    /**
+     * 入荷希望日
+     */
+    public String nyukaKibou;
+    /**
+     * 分納区分
+     */
+    public String bunno_kubun;
+    /**
+     * 合計数量
+     */
+    public long gokei_suryo;
+    /**
+     * 行番号
+     */
+    @Id
+    public long gyoNo;
+    /**
+     * 引取希望日
+     */
+    public String hikitori_kibou;
+    /**
+     * 帳票用防蝕単価
+     */
+    public long pboKaiTanka;
+    /**
+     * 帳票用重防蝕単価
+     */
+    public long pjuKaiTanka;
+    /**
+     * 帳票用耐塩害単価
+     */
+    public long ptaiKaiTanka;
+    /**
+     * 帳票用耐重塩害単価
+     */
+    public long ptaijuKaiTanka;
+    /**
+     * 帳票用重塩害単価
+     */
+    public long pjubouKaiTanka;
+//    /**
+//     * 帳票用予備単価１
+//     */
+//    public long pYobi1KaiTanka;
+//    /**
+//     * 帳票用予備単価２
+//     */
+//    public long pYobi2KaiTanka;
+
+    /**
+     * 改造仕様
+     * @author kimura
+     *
+     */
+    public class KaizoSiyo {
+      /**
+       * 防蝕
+       */
+      public static final String BOUSYOKU     = "防蝕";
+      /**
+       * 重防蝕
+       */
+      public static final String JUBOUSYOKU   = "重防蝕";
+      /**
+       * 耐塩害
+       */
+      public static final String TAIENGAI     = "耐塩害";
+      /**
+       * 耐重塩害
+       */
+      public static final String TAIJUENGAI   = "耐重塩害";
+      /**
+       * 重防錆
+       */
+      public static final String JUBOSABI     = "重防錆";
+    }
+    /**
+     * 分納区分
+     * @author kimura
+     *
+     */
+    public class BunoFlag {
+    	/**
+    	 * 分納なし
+    	 */
+    	public static final String NOMAL 	= "0";
+    	/**
+    	 * 分納あり
+    	 */
+    	public static final String BUNNO 	= "1";
+    }
+
+    public static Finder<Long, MtmTaisyoSeihin> find = new Finder<Long, MtmTaisyoSeihin>(Long.class, MtmTaisyoSeihin.class);
+
+    /**
+     * 渡された見積番号、枝番に一致する対象製品明細を取得します
+     * @return
+     */
+    public static List<MtmTaisyoSeihin> GetMTTaisyouSeihin(String pMtmno,long pEdaban) {
+    	List<MtmTaisyoSeihin> dataList = MtmTaisyoSeihin.find.where().eq("mitumori_no", pMtmno).eq("edaban", pEdaban).findList();
+    	return dataList;
+    }
+
+    /**
+     * 対象見積の改造情報を削除します
+     * @param mtmno
+     * @param edaban
+     * @return
+     */
+    public static boolean deleteData(String pMtmno, long pEdaban) {
+    	boolean result = false;
+        StringBuffer sb = new StringBuffer();
+        sb.append("DELETE FROM mtm_taisyo_seihin ");
+        sb.append(" WHERE mitumori_no = :mtmno ");
+        sb.append(" AND edaban = :edaban ");
+        int update = Ebean.createSqlUpdate(sb.toString())
+        		.setParameter("mtmno", pMtmno)
+        		.setParameter("edaban", pEdaban)
+        		.execute();
+        if (update >= 0) {
+        	result = true;
+        }
+        return result;
+    }
+
+}

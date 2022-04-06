@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <!--================================================================================
+  Item Name: Materialize - Material Design Admin Template
+  Version: 4.0
+  Author: PIXINVENT
+  Author URL: https://themeforest.net/user/pixinvent/portfolio
+================================================================================ -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="Web estimate of Sanden Techno">
+    <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
+    <title>ユーザマスタメンテナンス画面 | Web estimate of Sanden Techno</title>
+    <!-- Favicons-->
+    <link rel="icon" href="@routes.Assets.at("images/favicon/favicon-32x32.png")" sizes="32x32">
+    <!-- Favicons-->
+    <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/favicon/apple-touch-icon-152x152.png")">
+    <!-- For iPhone -->
+    <meta name="msapplication-TileColor" content="#00bcd4">
+    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
+    <!-- For Windows Phone -->
+    <!-- CORE CSS-->
+    <link href="@routes.Assets.at("css/themes/fixed-menu/materialize.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("css/themes/fixed-menu/style.css")" type="text/css" rel="stylesheet">
+    <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+    <link href="@routes.Assets.at("vendors/prism/prism.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid-theme.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/flag-icon/css/flag-icon.min.css")" type="text/css" rel="stylesheet">
+    <!-- Custome CSS-->
+    <link href="@routes.Assets.at("css/custom/custom.css")" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Start Page Loading -->
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <!-- End Page Loading -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START HEADER -->
+    <header id="header" class="page-topbar">
+      <!-- start header nav-->
+      <div class="navbar-fixed">
+        <nav class="navbar-color">
+          <div class="nav-wrapper">
+            <ul class="left">
+              <li>
+                <h1 class="logo-wrapper">
+                  <a href="index.html" class="brand-logo darken-1">
+                    <img src=@routes.Assets.at("images/logo/materialize-logo.png") alt="materialize logo">
+                    <span class="logo-text hide-on-med-and-down">Web estimate of Sanden Techno</span>
+                  </a>
+                </h1>
+              </li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <i class="material-icons left">person</i><span id="kaisyaname"></span>&nbsp;&nbsp;<span id="shitenname"></span>&nbsp;&nbsp;<span id="username"></span>
+              </li>
+              <li>
+                &nbsp;
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <!-- end header nav-->
+    </header>
+    <!-- END HEADER -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START MAIN -->
+    <div id="main">
+      <!-- START WRAPPER -->
+      <div class="wrapper">
+        <!-- START LEFT SIDEBAR NAV-->
+        <aside id="left-sidebar-nav">
+          <ul id="slide-out" class="side-nav fixed leftside-navigation">
+            <li class="no-padding">
+              <div id="card-alert" class="card gradient-45deg-light-blue-cyan">
+                <div class="card-content white-text">
+                  <p><i class="material-icons small">info_outline</i>&nbsp; Main Menu</p>
+                </div>
+              </div>
+            </li>
+            <li class="no-padding">
+              <ul class="collapsible" data-collapsible="accordion">
+                <li class="bold" id="menu-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">toc</i>
+                    <span class="nav-text">メインメニュー</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan">
+                    <i class="material-icons">dashboard</i>
+                    <span class="nav-text">見積件名管理</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMain">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan active">
+                    <i class="material-icons">build</i>
+                    <span class="nav-text">マスタメンテナンス</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMst">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold" id="logout-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">directions_walk</i>
+                    <span class="nav-text">ログアウト</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only">
+            <i class="material-icons">menu</i>
+          </a>
+        </aside>
+        <!-- END LEFT SIDEBAR NAV-->
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <!-- START CONTENT -->
+        <section id="content">
+          <!--start container-->
+          <div class="container">
+            <!--検索条件-->
+            <div class="row">
+              <div class="col s12">
+              <!-- 空白 -->
+              &nbsp;
+              </div>
+            </div>
+            <form class="" id="user-form">
+            <div class="row">
+              <div class="col s12 m6 offset-m3 z-depth-4 card-panel center">
+	                <div class="row">
+	                  <div class="input-field col s12 m3">
+	                    <input placeholder="000000" id="userId" name="userId" type="text" class="">
+	                    <label for="userId" class="" id="userId-l" data="ユーザＩＤ">ユーザＩＤ</label>
+	                  </div>
+	                  <div class="input-field col s12 m4">
+	                    <a href="#" class="gradient-45deg-indigo-light-blue btn white-text" id="idSearchBtn"><i class="material-icons small left">search</i>&nbsp;&nbsp;確&nbsp;&nbsp;&nbsp;&nbsp;定</a>
+                      <a href="#" class="gradient-45deg-red-pink btn white-text" id="idClearBtn"><i class="material-icons small left">reply</i>&nbsp;&nbsp;ク&nbsp;&nbsp;リ&nbsp;&nbsp;ア</a>
+	                  </div>
+	                </div>
+              </div>
+            </div>
+            <div class="row" id="input-area">
+              <div class="col s12 m6 offset-m3 z-depth-4 card-panel center">
+		            <div class="row">
+		              <div class="col s12">
+		              <!-- 空白 -->
+		              &nbsp;
+		              </div>
+		            </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input placeholder="○○　○○" id="kanji" name="kanji" type="text" class="required">
+                    <label for="kanji" class="" id="kanji-l" data="氏名漢字">氏名漢字</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <input placeholder="サンデン　タロウ" id="kana" name="kana" type="text" class="required">
+                    <label for="kana" class="" id="kana-l" data="氏名カナ">氏名カナ</label>
+                  </div>
+                  <div class="input-field col s12">
+								    <select id="kaisya">
+								    </select>
+								    <label>会社</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <select id="shiten">
+                    </select>
+                    <label>支店</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <select id="bumon">
+                    </select>
+                    <label>部門</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <select id="kengen">
+                    </select>
+                    <label>権限</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s12">
+                  <!-- 空白 -->
+                  &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12 m3">
+                    <a href="#" class="gradient-45deg-deep-orange-orange btn white-text" id="idResetBtn"><i class="material-icons small left">lock</i>初&nbsp;期&nbsp;化</a>
+                  </div>
+                  <div class="input-field col s12 m3 offset-m3">
+                    <a href="#" class="gradient-45deg-indigo-light-blue btn white-text" id="idAddBtn"><i class="material-icons small left">done</i>登&nbsp;&nbsp;録</a>
+                    <a href="#" class="gradient-45deg-indigo-light-blue btn white-text" id="idUpdateBtn"><i class="material-icons small left">done</i>更&nbsp;&nbsp;新</a>
+                  </div>
+                  <div class="input-field col s12 m3">
+                    <a href="#" class="gradient-45deg-indigo-light-blue btn white-text" id="idDeleteBtn"><i class="material-icons small left">clear</i>削&nbsp;&nbsp;除</a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s12">
+                  <!-- 空白 -->
+                  &nbsp;
+                  </div>
+                </div>
+              </div>
+            </div>
+            <input id="mode" name="mode" type="hidden" >
+            </form>
+
+          </div>
+        </section>
+      </div>
+      <!-- END WRAPPER -->
+    </div>
+    <!-- END MAIN -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- ================================================
+    Scripts
+    ================================================ -->
+    <!-- jQuery Library -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-3.2.1.min.js")"></script>
+    <!--angularjs-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/angular.min.js")"></script>
+    <!--materialize js-->
+    <script type="text/javascript" src="@routes.Assets.at("js/materialize.js")"></script>
+    <!--prism-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/prism/prism.js")"></script>
+    <!--scrollbar-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.min.js")"></script>
+    <!-- chartist -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/additional-methods.min.js")"></script>
+    <!--sweetalert -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.min.js")"></script>
+    <!--data-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jsgrid/js/jsgrid.min.js")"></script>
+     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+    <script type="text/javascript" src="@routes.Assets.at("js/plugins.js")"></script>
+    <!--custom-script.js - Add your own theme custom JS-->
+    <script type="text/javascript" src="@routes.Assets.at("js/custom-script.js")"></script>
+    <!-- MY SYSTEM -->
+    <script type="text/javascript" src="@routes.Assets.at("js/weos.js")"></script>
+    <!-- MY APP -->
+    <script type="text/javascript" src="@routes.Assets.at("js/user.js")"></script>
+  </body>
+</html>

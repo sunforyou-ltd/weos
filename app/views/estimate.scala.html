@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <!--================================================================================
+  Item Name: Materialize - Material Design Admin Template
+  Version: 4.0
+  Author: PIXINVENT
+  Author URL: https://themeforest.net/user/pixinvent/portfolio
+================================================================================ -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="Web estimate of Sanden Techno">
+    <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
+    <title>見積作成画面 | Web estimate of Sanden Techno</title>
+    <!-- Favicons-->
+    <link rel="icon" href="@routes.Assets.at("images/favicon/favicon-32x32.png")" sizes="32x32">
+    <!-- Favicons-->
+    <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/favicon/apple-touch-icon-152x152.png")">
+    <!-- For iPhone -->
+    <meta name="msapplication-TileColor" content="#00bcd4">
+    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
+    <!-- For Windows Phone -->
+    <!-- CORE CSS-->
+    <link href="@routes.Assets.at("css/themes/fixed-menu/materialize.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("css/themes/fixed-menu/style.css")" type="text/css" rel="stylesheet">
+    <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+    <link href="@routes.Assets.at("vendors/prism/prism.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid-theme.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/flag-icon/css/flag-icon.min.css")" type="text/css" rel="stylesheet">
+    <!-- Custome CSS-->
+    <link href="@routes.Assets.at("css/custom/custom.css")" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Start Page Loading -->
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <!-- End Page Loading -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START BUTTON -->
+    <!-- Modal Structure -->
+    <div id="button-modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <div class="row">
+       <div class="col s12 white-text gradient-45deg-red-pink">
+         <h4 class="header2"><p>&nbsp; 実行ボタン</p></h4>
+       </div>
+      </div>
+      <div class="row">
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn gradient-45deg-indigo-blue" id="addbtn">登&nbsp;&nbsp;&nbsp;&nbsp;録</a>
+        </div>
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn gradient-45deg-indigo-blue" id="modbtn">変&nbsp;&nbsp;&nbsp;&nbsp;更</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn gradient-45deg-indigo-blue" id="hachubtn">変更(発注)</a>
+        </div>
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn gradient-45deg-indigo-blue" id="hachudelbtn">発注取消</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 l6 center">
+          &nbsp;
+        </div>
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn gradient-45deg-indigo-blue" id="estdeletebtn">削&nbsp;&nbsp;&nbsp;&nbsp;除</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn gradient-45deg-indigo-blue" id="clearbtn">ク&nbsp;リ&nbsp;ア</a>
+        </div>
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn gradient-45deg-indigo-blue" id="backbtn">戻&nbsp;&nbsp;&nbsp;&nbsp;る</a>
+        </div>
+      </div>
+      <div class="row">
+       <div class="col s12 white-text gradient-45deg-red-pink">
+         <h4 class="header2"><p>&nbsp; 帳票</p></h4>
+       </div>
+      </div>
+      <div class="row">
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn print gradient-45deg-indigo-blue" id="miraibtn" printid="C010100010">見積依頼書</a>
+        </div>
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn print gradient-45deg-indigo-blue" id="mtmorbtn" printid="C010100020">見積書</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn print gradient-45deg-indigo-blue" id="kaizobtn" printid="C010200010">改造依頼書</a>
+        </div>
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn gradient-45deg-indigo-blue" id="nousibtn" printid="C010500010" href="@routes.Assets.at("data/nsys.xls")">納品仕様書</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn print gradient-45deg-indigo-blue" id="uriagbtn" printid="C010300010">売上伝票</a>
+        </div>
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn print gradient-45deg-indigo-blue" id="nouhnbtn" printid="C010400010">納品書</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn print gradient-45deg-indigo-blue" id="seikybtn" printid="C010400020">請求書</a>
+        </div>
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn print gradient-45deg-indigo-blue" id="juryobtn" printid="C010400030">受領書</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 l6 center">
+          <a class="waves-effect waves-light btn estimatebtn print gradient-45deg-indigo-blue" id="sekoubtn" printid="C010600010">施工証明書</a>
+        </div>
+        <div class="col s12 l6 center">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">閉じる</a>
+    </div>
+    </div>
+    <!-- END BUTTON -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START KATABAN -->
+    <!-- Modal Structure -->
+    <div id="kataban-modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <div class="row">
+       <div class="col s12 white-text gradient-45deg-red-pink">
+         <h4 class="header2"><p><i class="material-icons small">search</i>&nbsp; 製品型番検索</p></h4>
+       </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12 l4">
+          <input id="katabans"  placeholder="XXXXXXXXXXXXXXXXXXXX" name="katabans" type="text">
+          <label for="katabans" class="center-align">製品型番</label>
+        </div>
+        <div class="col s12 l2">
+         <p>
+         <div class="chip cyan white-text z-depth-2 stts-chip" id="kataban-btn">
+           <a href="#" class="white-text">検索</a>
+         </div>
+         </p>
+        </div>
+      </div>
+      <!--DataTables -->
+      <div id="table-datatables">
+        <div class="row">
+          <div class="col s12">
+            <div id="jsGridKataban"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">閉じる</a>
+    </div>
+    </div>
+    <!-- END KATABAN -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START OPTION -->
+    <!-- Modal Structure -->
+    <div id="option-modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <div class="row">
+       <div class="col s12 white-text gradient-45deg-red-pink">
+         <h4 class="header2"><p><i class="material-icons small">search</i>&nbsp; オプション部品</p></h4>
+       </div>
+      </div>
+      <!--DataTables -->
+      <div id="table-datatables">
+        <div class="row">
+          <div class="col s12">
+	          <ul class="option-list" id="optionlist">
+	          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat " id="optioncommitbtn">設&nbsp;&nbsp;定</a>
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">閉じる</a>
+    </div>
+    </div>
+    <!-- END KATABAN -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START HEADER -->
+    <header id="header" class="page-topbar">
+      <!-- start header nav-->
+      <div class="navbar-fixed">
+        <nav class="navbar-color">
+          <div class="nav-wrapper">
+            <ul class="left">
+              <li>
+                <h1 class="logo-wrapper">
+                  <a href="index.html" class="brand-logo darken-1">
+                    <img src=@routes.Assets.at("images/logo/materialize-logo.png") alt="materialize logo">
+                    <span class="logo-text hide-on-med-and-down">Web estimate of Sanden Techno</span>
+                  </a>
+                </h1>
+              </li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <i class="material-icons left">person</i><span id="kaisyaname"></span>&nbsp;&nbsp;<span id="shitenname"></span>&nbsp;&nbsp;<span id="username"></span>
+              </li>
+              <li>
+                &nbsp;
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <!-- end header nav-->
+    </header>
+    <!-- END HEADER -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START MAIN -->
+    <div id="main">
+      <!-- START WRAPPER -->
+      <div class="wrapper">
+        <!-- START LEFT SIDEBAR NAV-->
+        <aside id="left-sidebar-nav">
+          <ul id="slide-out" class="side-nav fixed leftside-navigation">
+            <li class="no-padding">
+              <div id="card-alert" class="card gradient-45deg-light-blue-cyan">
+                <div class="card-content white-text">
+                  <p><i class="material-icons small">info_outline</i>&nbsp; Main Menu</p>
+                </div>
+              </div>
+            </li>
+            <li class="no-padding">
+              <ul class="collapsible" data-collapsible="accordion">
+                <li class="bold" id="menu-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">toc</i>
+                    <span class="nav-text">メインメニュー</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan active">
+                    <i class="material-icons">dashboard</i>
+                    <span class="nav-text">見積件名管理</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMain">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan">
+                    <i class="material-icons">build</i>
+                    <span class="nav-text">マスタメンテナンス</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMst">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold" id="logout-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">directions_walk</i>
+                    <span class="nav-text">ログアウト</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only">
+            <i class="material-icons">menu</i>
+          </a>
+        </aside>
+        <!-- END LEFT SIDEBAR NAV-->
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <!-- START CONTENT -->
+        <section id="content">
+          <!--start container-->
+          <div class="container">
+            <!--情報切替TAB-->
+            <div class="row">
+              <div class="input-field col s12">
+	              <ul class="tabs">
+	              <li class="tab col s3"><a href="#baseinfo" class="white-text gradient-45deg-red-pink waves-effect waves-light">基本情報</a></li>
+	              <li class="tab col s3"><a href="#kaizoinfo" class="white-text gradient-45deg-amber-amber waves-effect waves-light">改造情報</a></li>
+	              <li class="tab col s3"><a href="#tokusyuinfo" class="white-text gradient-45deg-green-teal waves-effect waves-light">特殊改造</a></li>
+	              <li class="tab col s3"><a href="#bikoinfo" class="white-text gradient-45deg-blue-indigo waves-effect waves-light">備考情報</a></li>
+	              </ul>
+              </div>
+            </div>
+            <form class="" id="user-form">
+            <!--入力情報-->
+            <div class="row">
+              <!----------------------------------------基本情報---------------------------------------->
+              <div class="col s12 l9 card-panel" id="baseinfo">
+	              <div class="row">
+                  <!--情報タイトル-->
+                  <div class="col s12 white-text gradient-45deg-red-pink">
+                    <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; 見積基本情報</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--見積番号-->
+	                <div class="input-field col s12 m3">
+	                  <div id="card-alert" class="card cyan lighten-5">
+	                    <div class="card-content cyan-text">
+	                      <p>見積番号 : <span id="mtmno"></span></p>
+                        <input id="hmtmno" type="hidden" class="">
+	                    </div>
+	                  </div>
+	                </div>
+                  <div class="input-field col s12 m3">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>枝番 : <span id="edaban"></span></p>
+                        <input id="hedaban" type="hidden" class="">
+                      </div>
+                    </div>
+                  </div>
+                  <!--管理番号-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="XXXXXXXXXX" id="kanri" name="kanri" type="text" class="">
+                    <label for="kanri"  id="kanri-l" data="管理番号" class="">管理番号</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--施工証明書宛名-->
+                  <div class="input-field col s12 m6">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇" id="sekoatena" name="sekoatena" type="text" class="">
+                    <label for="sekoatena" id="sekoatena-l" data="施工証明書宛名" class="">施工証明書宛名</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m6">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--工事件名-->
+                  <div class="input-field col s12 m6">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇" id="kouji" name="kouji" type="text" class="">
+                    <label for="kouji" id="kouji-l" data="工事件名" class="">工事件名</label>
+                  </div>
+                  <!--発令元コード-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="XXXXXX" id="haturei" name="haturei" type="text" class="">
+                    <label for="haturei" id="haturei-l" data="発令元コード" class="">発令元コード</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--依頼者-->
+                  <div class="input-field col s12 m9">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>見積依頼者：</p>
+                        <p id="mkaisya"></p>
+                        <p id="mshiten"></p>
+                        <p id="mtantou"></p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--要求納期-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="yyyy/mm/dd" id="irainouki" name="irainouki" type="text" class="datepicker">
+                    <label for="irainouki" class="" id="irainouki-l" data="要求納期">要求納期</label>
+                  </div>
+                  <!--依頼日-->
+                  <div class="input-field col s12 m3">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>依頼日 : <span id="iraibi"></span></p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m6">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--回答納期-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="yyyy/mm/dd" id="kaitounouki" name="kaitounouki" type="text" class="datepicker">
+                    <label for="kaitounouki" class="" id="kaitounouki-l" data="回答納期">回答納期</label>
+                  </div>
+                  <!--回答日-->
+                  <div class="input-field col s12 m3">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>回答日 : <span id="kaitoubi"></span></p>
+                        <input id="kaitoubi-v" type="hidden">
+                      </div>
+                    </div>
+                  </div>
+                  <!--回答ボタン-->
+                  <div class="input-field col s12 m3">
+                    <div class="chip cyan white-text z-depth-2 stts-chip anserupdate" id="anserupdate">
+                      <a href="#" class="white-text">回答日更新</a>
+                    </div>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+	              </div>
+                <div class="row">
+                  <!--見積有効期限-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="yyyy/mm/dd" id="mitumoriyukokigen" name="mitumoriyukokigen" type="text" class="datepicker">
+                    <label for="mitumoriyukokigen" class="" id="mitumoriyukokigen-l" data="見積有効期限">見積有効期限</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m９">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--得意先番号-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="XXXXXX" id="tokuicode" name="tokuicode" type="text" class="">
+                    <label for="tokuicode" id="tokuicode-l" data="得意先番号" class="">得意先番号</label>
+                  </div>
+                  <!--得意先名称-->
+                  <div class="input-field col s12 m6">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="tokuiname" name="tokuiname" type="text" class="">
+                    <label for="tokuiname" id="tokuiname-l" data="得意先名称" class="">得意先名称</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--郵便番号-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="XXXXXXX" id="postcode" name="postcode" type="text" class="">
+                    <label for="postcode" id="postcode-l" data="郵便番号" class="">郵便番号</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m9">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--住所１-->
+                  <div class="input-field col s12 m9">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="addr1" name="addr1" type="text" class="">
+                    <label for="addr1" class="" id="addr1-l" data="住所１">住所１</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--住所２-->
+                  <div class="input-field col s12 m9">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="addr2" name="addr2" type="text" class="">
+                    <label for="addr2" id="addr2-l" data="住所２" class="">住所２</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--電話番号-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="XXXXXXXXXXXXXXX" id="tel" name="tel" type="text" class="">
+                    <label for="tel" id="tel-l" data="電話番号" class="">電話番号</label>
+                  </div>
+                  <!--FAX-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="XXXXXXXXXXXXXXX" id="fax" name="fax" type="text" class="">
+                    <label for="fax" id="fax-l" data="ＦＡＸ番号" class="">ＦＡＸ番号</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m6">
+                    &nbsp;
+                  </div>
+                </div>
+              </div>
+              <!----------------------------------------基本情報<終わり>---------------------------------------->
+              <!----------------------------------------製品改造---------------------------------------->
+              <div class="col s12 l9 card-panel" id="kaizoinfo">
+                <div class="row">
+                  <!--情報タイトル-->
+                  <div class="col s12 white-text gradient-45deg-amber-amber">
+                    <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; 改造情報<a href="#" class="waves-effect cardadd amber darken-1 white-text center lineadd" id="kaizoadd"">行追加</a></h4>
+                  </div>
+                </div>
+                  <div class="row">
+                    <div class="col s12">
+                      <ul class="kaizo-list" id="kaizolist">
+                      </ul>
+                    </div>
+                  </div>
+              </div>
+              <!----------------------------------------製品改造<終わり>---------------------------------------->
+              <!----------------------------------------特殊改造---------------------------------------->
+              <div class="col s12 l9 card-panel" id="tokusyuinfo">
+                <div class="row">
+                  <!--情報タイトル-->
+                  <div class="col s12 white-text gradient-45deg-green-teal">
+                    <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; 特殊改造一覧<a href="#" class="waves-effect cardadd teal darken-1 white-text center lineadd" id="tokuadd"">行追加</a></h4>
+                  </div>
+                </div>
+                  <div class="row">
+                    <div class="col s12">
+                      <ul class="tokusyu-list" id="tokusyulist">
+                      </ul>
+                    </div>
+                  </div>
+              </div>
+              <!----------------------------------------特殊改造<終わり>---------------------------------------->
+              <!----------------------------------------備考情報---------------------------------------->
+              <div class="col s12 l9 card-panel" id="bikoinfo">
+                <div class="row">
+                  <!--情報タイトル-->
+                  <div class="col s12 white-text gradient-45deg-blue-indigo">
+                    <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; 帳票情報</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--改造承認No.-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="XXXXXXXXXX" id="kaizono" name="kaizono" type="text" class="">
+                    <label for="kaizono" class="" id="kaizono-l" data="改造承認No.">改造承認No.</label>
+                  </div>
+                  <!--購買管理No.-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="XXXXXXXXXX" id="koubaino" name="koubaino" type="text" class="">
+                    <label for="koubaino" class="" id="koubaino-l" data="購買管理No.">購買管理No.</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m6">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--支店名-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇" id="psitenname" name="psitenname" type="text" class="">
+                    <label for="psitenname" class="" id="psitenname-l" data="支店名">支店名</label>
+                  </div>
+                  <!--担当者名-->
+                  <div class="input-field col s12 m3">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇" id="ptantoname" name="ptantoname" type="text" class="">
+                    <label for="ptantoname" class="" id="ptantoname-l" data="担当者名">担当者名</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m6">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--情報タイトル-->
+                  <div class="col s12 white-text gradient-45deg-blue-indigo">
+                    <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; 特記事項</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--改造費請求先-->
+                  <div class="input-field col s12 m6">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="kaizoseikyu" name="kaizoseikyu" type="text" class="">
+                    <label for="kaizoseikyu" class="">改造費請求先</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m6">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--運賃請求先-->
+                  <div class="input-field col s12 m6">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="unchin" name="unchin" type="text" class="">
+                    <label for="unchin" class="">運賃請求先</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m6">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--パネル色-->
+                  <div class="input-field col s12 m6">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="panel" name="panel" type="text" class="">
+                    <label for="panel" class="">パネル色</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m6">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--設置場所-->
+                  <div class="input-field col s12 m6">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="setti" name="setti" type="text" class="">
+                    <label for="setti" class="">設置場所</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m6">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--情報タイトル-->
+                  <div class="col s12 white-text gradient-45deg-blue-indigo">
+                    <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; 備&nbsp;&nbsp;考</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--備考１-->
+                  <div class="input-field col s12 m9">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="biko1" name="biko1" type="text" class="">
+                    <label for="biko1" class="">備考</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--備考２-->
+                  <div class="input-field col s12 m9">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="biko2" name="biko2" type="text" class="">
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--備考３-->
+                  <div class="input-field col s12 m9">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="biko3" name="biko3" type="text" class="">
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--情報タイトル-->
+                  <div class="col s12 white-text gradient-45deg-blue-indigo">
+                    <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; 工程納期</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--工程納期１-->
+                  <div class="input-field col s12 m9">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="koutei1" name="koutei1" type="text" class="">
+                    <label for="koutei1" class="">工程納期</label>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--工程納期２-->
+                  <div class="input-field col s12 m9">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="koutei2" name="koutei2" type="text" class="">
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="row">
+                  <!--工程納期３-->
+                  <div class="input-field col s12 m9">
+                    <input placeholder="〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇" id="koutei3" name="koutei3" type="text" class="">
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                </div>
+              </div>
+              <!----------------------------------------備考情報<終わり>---------------------------------------->
+              <!----------------------------------------見積金額------------------------------------------------>
+              <div class="col s12 l3 card-panel">
+                <div class="row">
+		              <!--情報タイトル-->
+		              <div class="col s12 white-text gradient-45deg-purple-deep-purple">
+		                <h4 class="header2"><i class="material-icons small">attach_money</i>&nbsp; 見積金額</h4>
+		              </div>
+                </div>
+                <div class="row">
+                  <!--見積番号-->
+                  <div class="input-field col s12">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>見積合計金額 : <span id="kmitumori"></span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--本体価格-->
+                  <div class="input-field col s12">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>本体価格 : <span id="khontai"></span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--見積番号-->
+                  <div class="input-field col s12">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>見積合計(参考) : <span id="kmitusanko"></span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--値引金額-->
+                  <div class="input-field col s12">
+							      <input id="knebiki"  name="knebiki" type="text" placeholder="999999円" class="right-text" value="">
+							      <label for="knebiki" class="center-align active">値引金額(円)</label>
+                  <!--
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>値引金額 : <span id="knebiki"></span></p>
+                      </div>
+                    </div>
+                    -->
+                  </div>
+                </div>
+                <div class="row">
+                  <!--値引率-->
+                  <div class="input-field col s12">
+                    <input id="kritu"  name="kritu" type="text" placeholder="99％" class="right-text" value="">
+                    <label for="kritu" class="center-align active">値引率(％)</label>
+                  <!--
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>値引率 : <span id="kritu"></span></p>
+                      </div>
+                    </div>
+                    -->
+                  </div>
+                </div>
+                <div class="row">
+                  <!--消費税-->
+                  <div class="input-field col s12">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>消費税 : <span id="kshouhizei"></span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--値引単価-->
+                  <div class="input-field col s12">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>参考単価 : <span id="sankotanka"></span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="ktanka"  name="ktanka" type="text" placeholder="9999円" class="right-text" value="">
+                    <label for="ktanka" class="center-align active">単価値引</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--空白-->
+                  <div class="input-field col s12 right-text">
+						        <div class="chip cyan white-text z-depth-2 stts-chip" id="tankanebiki">
+						          <a href="#" class="white-text">単価値引</a>
+						        </div>'
+                  </div>
+                </div>
+                <div class="row">
+                  <!--受注確定-->
+                  <div class="input-field col s12 center">
+                    <p>
+                    <a class="btn waves-effect waves-light gradient-45deg-red-pink gradient-shadow" id="mikakutei"><i class="material-icons small">clear</i>&nbsp;&nbsp;未受注確定</a>
+                    <a class="btn waves-effect waves-light gradient-45deg-green-teal gradient-shadow" id="kakutei"><i class="material-icons small">done</i>&nbsp;&nbsp;受注確定</a>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <!--空白-->
+                  <div class="input-field col s12">
+                    &nbsp;
+                  </div>
+                </div>
+              </div>
+            </div>
+            <input id="mode" name="mode" type="hidden" >
+            <input id="hachu" name="hachu" type="hidden" >
+            <input id="tax" name="tax" type="hidden" >
+            </form>
+
+          </div>
+        </section>
+      </div>
+      <!-- END WRAPPER -->
+    </div>
+    <!-- END MAIN -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- Floating Action Button -->
+    <div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
+      <a class="btn-floating btn-large gradient-45deg-light-blue-cyan gradient-shadow modal-trigger" href="#button-modal">
+        <i class="material-icons">reorder</i>
+      </a>
+    </div>
+    <!-- Floating Action Button -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- ================================================
+    Scripts
+    ================================================ -->
+    <!-- jQuery Library -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-3.2.1.min.js")"></script>
+    <!--angularjs-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/angular.min.js")"></script>
+    <!--materialize js-->
+    <script type="text/javascript" src="@routes.Assets.at("js/materialize.js")"></script>
+    <!--prism-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/prism/prism.js")"></script>
+    <!--scrollbar-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.min.js")"></script>
+    <!-- chartist -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/additional-methods.min.js")"></script>
+    <!--sweetalert -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.min.js")"></script>
+    <!--data-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jsgrid/js/jsgrid.min.js")"></script>
+     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+    <script type="text/javascript" src="@routes.Assets.at("js/plugins.js")"></script>
+    <!--custom-script.js - Add your own theme custom JS-->
+    <script type="text/javascript" src="@routes.Assets.at("js/custom-script.js")"></script>
+    <!-- MY SYSTEM -->
+    <script type="text/javascript" src="@routes.Assets.at("js/weos.js")"></script>
+    <!-- MY APP -->
+    <script type="text/javascript" src="@routes.Assets.at("js/estimate.js")"></script>
+  </body>
+</html>

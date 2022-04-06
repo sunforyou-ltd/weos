@@ -1,0 +1,228 @@
+package controllers;
+
+import java.util.List;
+
+import models.MsiKaizoKanryo;
+import models.MtmHead;
+import models.MtmTaisyoSeihin;
+import models.MtmTokusyuKaizo;
+import play.Logger;
+import play.libs.Json;
+import play.mvc.Result;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+/**
+ * 製造番号入力コントローラー
+ * @author morinaga
+ *
+ */
+public class SerialNumberController extends BaseController {
+
+	/**
+	 * 製造番号入力画面遷移
+	 * @return 製造番号入力画面レンダー
+	 */
+    public static Result move() {
+        return ok(views.html.serialnumber.render());
+    }
+    /**
+     * 初期表示
+     * @return
+     */
+    public static Result doInit() {
+
+    	int dtIdx = 0;
+    	ObjectNode resultJson = Json.newObject();
+        ObjectNode listJson   = Json.newObject();
+
+        //------------------------------------------------------------------------------------
+    	//- パラメータの取得
+    	//------------------------------------------------------------------------------------
+        parameter.SessionKeys sessionkeys = new parameter.SessionKeys();
+        sessionkeys = getSessionKeys();
+        String sMtmno = sessionkeys.mtmno;
+        long lEdaban = sessionkeys.edaban;
+
+        Logger.info("[param] sMtmno={}. ", sMtmno);
+        Logger.info("[param] sEdaban={}. ", lEdaban);
+
+		// --------------------------------------------
+		//  見積ﾍｯﾀﾞ検索
+		// --------------------------------------------
+        MtmHead head = MtmHead.find.where().eq("mitumori_no", sMtmno).eq("edaban", lEdaban).findUnique();
+
+		// --------------------------------------------
+		//  改造完了明細検索
+		// --------------------------------------------
+        List<MsiKaizoKanryo> dataList = MsiKaizoKanryo.GetMTEdaban(sMtmno,lEdaban);
+
+        if (dataList.size() > 0) {
+          //改造完了明細あり
+          for (MsiKaizoKanryo data : dataList) { //改造完了明細分
+            ObjectNode dataJson = Json.newObject();                            //データの生成
+            getHeadToJson(head, dataJson);                                     //見積ヘッダ情報
+            dataJson.put("gyo", data.gyoNo);                                   //行番号
+            dataJson.put("kataban", data.taisyoKataban);                       //対象型番
+            dataJson.put("naiyo", data.taisyoNaiyo);						   //対象内容
+            dataJson.put("sno", data.seizoNo);								   //製造番号
+            dataJson.put("sekou", data.sekouName);                             //施工者名
+            listJson.put(sMtmno+String.valueOf(lEdaban)+String.valueOf(data.gyoNo), dataJson);  //JSONリストに格納
+
+            Logger.info("[outData] gyo={}. ", data.gyoNo);
+            Logger.info("[outData] kataban={}. ", data.taisyoKataban);
+            Logger.info("[outData] naniyo={}. ", data.taisyoNaiyo);
+            Logger.info("[outData] sno={}. ", data.seizoNo);
+            Logger.info("[outData] sekou={}. ", data.sekouName);
+          }
+    	  resultJson.put("mode", "update");
+        }
+        else {
+          //改造完了明細なし
+		  // --------------------------------------------
+		  //  対象製品検索
+		  // --------------------------------------------
+          List<MtmTaisyoSeihin> taisyoList = MtmTaisyoSeihin.GetMTEdaban(sMtmno,lEdaban);
+
+          for (MtmTaisyoSeihin taidata : taisyoList) { //対象製品分
+            boolean kaizo = false;
+			// 出来上がる明細は （指定改造 ＊ 数量）
+			// 防蝕改造
+            if(taidata.bosyokuKaizo.equals("1")){
+              kaizo = true;
+              for (int j = 0; j < taidata.suryo; j++) {
+                ObjectNode dataJson = Json.newObject();                          //データの生成
+                getHeadToJson(head, dataJson);                                   //見積ヘッダ情報
+                getMeisaiToJson(taidata, dataJson, MsiKaizoKanryo.kaizoName.KZ_BOUSYOKU,dtIdx); //明細情報
+                listJson.put(sMtmno+String.valueOf(lEdaban)+String.valueOf(dtIdx), dataJson);  //JSONリストに格納
+                dtIdx = dtIdx + 1;
+              }
+            }
+			// 重防蝕改造
+            if(taidata.jubosyokuKaizo.equals("1")){
+              kaizo = true;
+              for (int j = 0; j < taidata.suryo; j++) {
+                ObjectNode dataJson = Json.newObject();                          //データの生成
+                getHeadToJson(head, dataJson);                                   //見積ヘッダ情報
+                getMeisaiToJson(taidata, dataJson, MsiKaizoKanryo.kaizoName.KZ_JUBOUSYOK,dtIdx); //明細情報
+                listJson.put(sMtmno+String.valueOf(lEdaban)+String.valueOf(dtIdx), dataJson);  //JSONリストに格納
+                dtIdx = dtIdx + 1;
+              }
+            }
+			// 耐塩害改造
+            if(taidata.jubosyokuKaizo.equals("1")){
+              kaizo = true;
+              for (int j = 0; j < taidata.suryo; j++) {
+                ObjectNode dataJson = Json.newObject();                          //データの生成
+                getHeadToJson(head, dataJson);                                   //見積ヘッダ情報
+                getMeisaiToJson(taidata, dataJson, MsiKaizoKanryo.kaizoName.KZ_TAIENGAI,dtIdx); //明細情報
+                listJson.put(sMtmno+String.valueOf(lEdaban)+String.valueOf(dtIdx), dataJson);  //JSONリストに格納
+                dtIdx = dtIdx + 1;
+              }
+            }
+			// 耐重塩害改造
+            if(taidata.jubosyokuKaizo.equals("1")){
+              kaizo = true;
+              for (int j = 0; j < taidata.suryo; j++) {
+                ObjectNode dataJson = Json.newObject();                          //データの生成
+                getHeadToJson(head, dataJson);                                   //見積ヘッダ情報
+                getMeisaiToJson(taidata, dataJson, MsiKaizoKanryo.kaizoName.KZ_TAIJUENGAI,dtIdx); //明細情報
+                listJson.put(sMtmno+String.valueOf(lEdaban)+String.valueOf(dtIdx), dataJson);  //JSONリストに格納
+                dtIdx = dtIdx + 1;
+              }
+            }
+			// 重防錆改造
+            if(taidata.jubosyokuKaizo.equals("1")){
+              kaizo = true;
+              for (int j = 0; j < taidata.suryo; j++) {
+                ObjectNode dataJson = Json.newObject();                          //データの生成
+                getHeadToJson(head, dataJson);                                   //見積ヘッダ情報
+                getMeisaiToJson(taidata, dataJson, MsiKaizoKanryo.kaizoName.KZ_JUBOUSEI,dtIdx); //明細情報
+                listJson.put(sMtmno+String.valueOf(lEdaban)+String.valueOf(dtIdx), dataJson);  //JSONリストに格納
+                dtIdx = dtIdx + 1;
+              }
+            }
+			// 改造なし
+            if(!kaizo){
+              for (int j = 0; j < taidata.suryo; j++) {
+                ObjectNode dataJson = Json.newObject();                          //データの生成
+                getHeadToJson(head, dataJson);                                   //見積ヘッダ情報
+                getMeisaiToJson(taidata, dataJson, MsiKaizoKanryo.kaizoName.KZ_BUHINKM,dtIdx); //明細情報
+                listJson.put(sMtmno+String.valueOf(lEdaban)+String.valueOf(dtIdx), dataJson);  //JSONリストに格納
+                dtIdx = dtIdx + 1;
+              }
+            }
+          }
+          // --------------------------------------------
+          //  特殊改造検索
+          // --------------------------------------------
+          List<MtmTokusyuKaizo> kaizoList = MtmTokusyuKaizo.GetMTEdaban(sMtmno,lEdaban);
+
+          for (MtmTokusyuKaizo kaidata : kaizoList) { //特殊改造分
+              for (int j = 0; j < kaidata.suryo; j++) {
+	              ObjectNode dataJson = Json.newObject();					//データの生成
+	              getHeadToJson(head, dataJson);							//見積ヘッダ情報
+	              dataJson.put("gyo", dtIdx);								//行番号
+	              dataJson.put("kataban", kaidata.tokusyuKataban);			//対象型番
+	              dataJson.put("naiyo", kaidata.tokusyuNaiyo);				//対象内容
+	              dataJson.put("sno", "");									//製造番号
+	              dataJson.put("sekou", "");								//施工者名
+	              listJson.put(sMtmno+String.valueOf(lEdaban)+String.valueOf(dtIdx), dataJson);	//JSONリストに格納
+	              dtIdx = dtIdx + 1;
+	              Logger.info("[outData] gyo={}. ", dtIdx);
+	              Logger.info("[outData] kataban={}. ", kaidata.tokusyuKataban);
+	              Logger.info("[outData] naniyo={}. ", kaidata.tokusyuNaiyo);
+              }
+          }
+
+    	  resultJson.put("mode", "create");
+        }
+
+        resultJson.put("result", "success");
+	    resultJson.put("datalist", listJson);
+
+        return ok(resultJson);
+    }
+
+    /**
+     * 見積ヘッダ情報をJSONに追加する
+     * @return
+     */
+	private static void getHeadToJson(MtmHead head, ObjectNode resultJson) {
+
+        resultJson.put("mno", head.mitumoriNo);                              //見積番号
+        resultJson.put("eda", head.edaban);                                  //枝番
+        resultJson.put("kno", head.kanriNo);                                 //管理番号
+        resultJson.put("lmkei", head.saisyuMitumoriGokei);                   //最終見積金額
+        resultJson.put("mkei", head.mitumoriGokei);                          //見積合計金額
+        resultJson.put("zei", head.saisyuMitumoriGokei - head.mitumoriGokei);//消費税額
+        resultJson.put("tokui", head.tokuisakiName);                         //得意先名称
+        resultJson.put("koji", head.kojiKenmei);                             //工事件名
+
+        Logger.info("[outData] mno={}. ", head.mitumoriNo);
+        Logger.info("[outData] eda={}. ", head.edaban);
+        Logger.info("[outData] kno={}. ", head.kanriNo);
+        Logger.info("[outData] lmkei={}. ", head.saisyuMitumoriGokei);
+        Logger.info("[outData] mkei={}. ", head.mitumoriGokei);
+        Logger.info("[outData] zei={}. ", head.saisyuMitumoriGokei - head.mitumoriGokei);
+        Logger.info("[outData] tokui={}. ", head.tokuisakiName);
+        Logger.info("[outData] koji={}. ", head.tokuisakiName);
+	}
+
+    /**
+     * 明細情報（対象製品）をJSONに追加する
+     * @return
+     */
+	private static void getMeisaiToJson(MtmTaisyoSeihin meisai, ObjectNode resultJson,String kaizo, int dtIdx) {
+
+		resultJson.put("gyo", dtIdx);											//行番号
+		resultJson.put("kataban", meisai.taisyoKataban);					//対象型番
+        resultJson.put("naiyo", kaizo);										//対象内容
+        resultJson.put("sno", "");											//製造番号
+        resultJson.put("sekou","");											//施工者名
+
+        Logger.info("[outData] gyo={}. ", dtIdx);
+        Logger.info("[outData] kataban={}. ", meisai.taisyoKataban);
+        Logger.info("[outData] naniyo={}. ", kaizo);
+	}
+}

@@ -1,0 +1,134 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+#######################################################################################################################
+# システム共通
+#######################################################################################################################
+GET     /getuserinfo                controllers.BaseController.getUserInfo()
+#######################################################################################################################
+# ログイン画面
+#######################################################################################################################
+# ログイン画面遷移
+GET     /                           controllers.LoginController.move()
+# ログイン認証
+POST    /login                      controllers.LoginController.login()
+# ログアウト
+GET     /logout                     controllers.LoginController.logout()
+#######################################################################################################################
+# メニュー画面
+#######################################################################################################################
+# メニュー画面遷移
+GET     /movemenu                   controllers.MenuController.move()
+# 見積ステータス件数の取得
+GET     /countofstts                controllers.MenuController.countofstts()
+# 指定された見積ステータスの見積件名を取得する
+POST    /getmtstts                  controllers.MenuController.getMtStts()
+# 決済待ちアラートデータの取得
+GET     /getkessaidata              controllers.MenuController.getKessaiAlert()
+# 回答待ちアラートデータの取得
+GET     /getanserdata               controllers.MenuController.getAnserAlert()
+# 一時保存アラートデータの取得
+GET     /getsavedata                controllers.MenuController.getSaveAlert()
+# パスワード変更を確定する
+POST    /passcommit                 controllers.MenuController.passcommit()
+# 見積作成画面に遷移する
+GET     /addestimate                controllers.MenuController.moveEstimate()
+#######################################################################################################################
+# 見積作成画面
+#######################################################################################################################
+# 見積作成画面遷移
+GET     /moveestimate               controllers.EstimateController.move()
+# 見積検索
+GET     /initestimate               controllers.EstimateController.init()
+# 型番検索
+POST    /searchkataban              controllers.EstimateController.searchkataban()
+# オプション検索
+POST    /searchoption               controllers.EstimateController.searchoption()
+# 型番存在チェック
+POST    /checkkataban               controllers.EstimateController.checkkataban()
+# 見積削除実行
+POST    /estimatecommit             controllers.EstimateController.commitEstimate()
+# 見積削除実行
+GET     /estimatedelete             controllers.EstimateController.deleteEstimate()
+# 見積書印刷
+POST    /estimateprint              controllers.EstimateController.printmitumorisyo()
+#######################################################################################################################
+# 見積検索画面
+#######################################################################################################################
+# 見積検索画面遷移
+GET     /:mode/moveretrieval        controllers.RetrievalController.move(mode:String)
+# 見積検索画面モード取得
+GET     /getretrievalmode           controllers.RetrievalController.getmode()
+# 見積検索
+POST    /commitretrieval            controllers.RetrievalController.retrieval()
+# 他画面遷移
+POST    /moveother                  controllers.RetrievalController.moveother()
+#######################################################################################################################
+# 製造番号入力画面
+#######################################################################################################################
+# 製造番号入力画面遷移
+GET     /moveserialnumber           controllers.SerialNumberController.move()
+# 製造番号入力画面初期表示
+GET     /initserialnumber           controllers.SerialNumberController.doInit()
+# 製造番号入力画面確定時
+POST    /serialnumbercommit         controllers.SerialNumberController.serialnumbercommit()
+#######################################################################################################################
+# 売上伝票ファイル作成画面
+#######################################################################################################################
+# 売上伝票ファイル作成画面遷移
+GET     /movemakedenpyo       		controllers.MakeDenpyoController.move()
+# 依頼元会社一覧取得時
+GET     /getiraikaisyalist          controllers.MakeDenpyoController.getiraikaisyalist()
+# 依頼元支店一覧取得時
+GET     /:kaisyacd/getiraishitenlist controllers.MakeDenpyoController.getiraishitenlist(kaisyacd:String)
+# 売上伝票検索
+POST    /commitdenpyoretrieval      controllers.MakeDenpyoController.denpyoretrieval()
+# 売上伝票出力
+POST    /denpyoouttext      	    controllers.MakeDenpyoController.denpyoouttext()
+#######################################################################################################################
+# ユーザマスタメンテナンス画面
+#######################################################################################################################
+# ユーザマスタメンテナンス画面遷移
+GET     /moveusermnt                controllers.UserMntController.move()
+# ユーザＩＤ確定時
+POST    /useridcommit               controllers.UserMntController.useridcommit()
+# 会社一覧取得時
+GET     /getkaisyalist              controllers.UserMntController.getkaisyalist()
+# 支店一覧取得時
+GET     /:kaisyacd/getshitenlist    controllers.UserMntController.getshitenlist(kaisyacd:String)
+# 部門一覧取得時
+GET     /:kaisyacd/:shitencd/getbumonlist controllers.UserMntController.getbumonlist(kaisyacd:String, shitencd:String)
+# 権限一覧取得時
+GET     /getkengenlist              controllers.UserMntController.getkengenlist()
+# ユーザ変更確定時
+POST    /usermntcommit              controllers.UserMntController.usermntcommit()
+# ユーザ削除時
+POST    /userdelete                 controllers.UserMntController.userdelete()
+# パスワードリセット時
+POST    /passwordreset              controllers.UserMntController.passwordreset()
+#######################################################################################################################
+# 製品単価取り込み画面
+#######################################################################################################################
+# 製品単価取り込み画面遷移
+GET     /moveseihinupload           controllers.SeihinUploadController.move()
+# 製品単価アップロードEXCEL作成
+POST    /seihinupload               controllers.SeihinUploadController.upload()
+# 製品単価ダウンロードEXCEL作成
+GET     /seihindownload             controllers.SeihinUploadController.download()
+# 作成済みのEXCELファイルをダウンロードする
+GET     /exceldownload              controllers.SeihinUploadController.exceldownload()
+#######################################################################################################################
+# テスト用遷移画面
+#######################################################################################################################
+# テスト用遷移画面遷移
+GET     /movetest                   controllers.TestController.move()
+POST    /testseizou                 controllers.TestController.testseizou()
+GET     /testcommit                 controllers.TestController.testcommit()
+POST    /testjson                   controllers.TestController.testjson()
+
+#######################################################################################################################
+# パブリックマテリアル
+#######################################################################################################################
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

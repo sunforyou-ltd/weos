@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <!--================================================================================
+  Item Name: Materialize - Material Design Admin Template
+  Version: 4.0
+  Author: PIXINVENT
+  Author URL: https://themeforest.net/user/pixinvent/portfolio
+================================================================================ -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="Web estimate of Sanden Techno">
+    <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
+    <title>製造番号入力画面 | Web estimate of Sanden Techno</title>
+    <!-- Favicons-->
+    <link rel="icon" href="@routes.Assets.at("images/favicon/favicon-32x32.png")" sizes="32x32">
+    <!-- Favicons-->
+    <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/favicon/apple-touch-icon-152x152.png")">
+    <!-- For iPhone -->
+    <meta name="msapplication-TileColor" content="#00bcd4">
+    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
+    <!-- For Windows Phone -->
+    <!-- CORE CSS-->
+    <link href="@routes.Assets.at("css/themes/fixed-menu/materialize.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("css/themes/fixed-menu/style.css")" type="text/css" rel="stylesheet">
+    <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+    <link href="@routes.Assets.at("vendors/prism/prism.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid-theme.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/flag-icon/css/flag-icon.min.css")" type="text/css" rel="stylesheet">
+    <!-- Custome CSS-->
+    <link href="@routes.Assets.at("css/custom/custom.css")" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Start Page Loading -->
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <!-- End Page Loading -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START HEADER -->
+    <header id="header" class="page-topbar">
+      <!-- start header nav-->
+      <div class="navbar-fixed">
+        <nav class="navbar-color">
+          <div class="nav-wrapper">
+            <ul class="left">
+              <li>
+                <h1 class="logo-wrapper">
+                  <a href="index.html" class="brand-logo darken-1">
+                    <img src=@routes.Assets.at("images/logo/materialize-logo.png") alt="materialize logo">
+                    <span class="logo-text hide-on-med-and-down">Web estimate of Sanden Techno</span>
+                  </a>
+                </h1>
+              </li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <i class="material-icons left">person</i><span id="kaisyaname"></span>&nbsp;&nbsp;<span id="shitenname"></span>&nbsp;&nbsp;<span id="username"></span>
+              </li>
+              <li>
+                &nbsp;
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <!-- end header nav-->
+    </header>
+    <!-- END HEADER -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START MAIN -->
+    <div id="main">
+      <!-- START WRAPPER -->
+      <div class="wrapper">
+        <!-- START LEFT SIDEBAR NAV-->
+        <aside id="left-sidebar-nav">
+          <ul id="slide-out" class="side-nav fixed leftside-navigation">
+            <li class="no-padding">
+              <div id="card-alert" class="card gradient-45deg-light-blue-cyan">
+                <div class="card-content white-text">
+                  <p><i class="material-icons small">info_outline</i>&nbsp; Main Menu</p>
+                </div>
+              </div>
+            </li>
+            <li class="no-padding">
+              <ul class="collapsible" data-collapsible="accordion">
+                <li class="bold" id="menu-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">toc</i>
+                    <span class="nav-text">メインメニュー</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan active">
+                    <i class="material-icons">dashboard</i>
+                    <span class="nav-text">見積件名管理</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMain">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan">
+                    <i class="material-icons">build</i>
+                    <span class="nav-text">マスタメンテナンス</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMst">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold" id="logout-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">directions_walk</i>
+                    <span class="nav-text">ログアウト</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only">
+            <i class="material-icons">menu</i>
+          </a>
+        </aside>
+        <!-- END LEFT SIDEBAR NAV-->
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <!-- START CONTENT -->
+        <section id="content">
+          <!--start container-->
+          <div class="container">
+              <!-- 製造番号入力ヘッダ Start -->
+              <div class="col s12 card-panel" id="baseinfo">
+	            <div class="row">
+                  <!--情報タイトル-->
+                  <div class="col s12 white-text gradient-45deg-red-pink">
+                    <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; 製造番号入力</h4>
+                  </div>
+                </div>
+                <div class="row nomargin">
+                 <!--見積番号-->
+	             <div class="col s12 m3">
+	                <div id="card-alert" class="card cyan lighten-5">
+	                  <div class="card-content cyan-text">
+	                    <p id="mnodsp">見積番号 : XXXXXXXXXX</p>
+	                  </div>
+	                </div>
+	              </div>
+                  <div class="col s12 m3">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>枝番 : XX</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--管理番号-->
+	              <div class="col s12 m3">
+	                <div id="card-alert" class="card cyan lighten-5">
+	                  <div class="card-content cyan-text">
+	                    <p>管理番号 : XXXXXXXXXX</p>
+	                  </div>
+	                </div>
+	              </div>
+                  <!--空白-->
+                  <div class="col s12 m3">
+                    &nbsp;
+                  </div>
+                  </div>
+                  <div class="row nomargin">
+                  <!--見積合計金額-->
+                  <div class="col s12 m3">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>見積合計金額 : 999,999,999</p>
+                      </div>
+                    </div>
+                  </div>
+                 <!--本体価格-->
+                  <div class="col s12 m3">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>本体価格 : 999,999,999</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--消費税-->
+                  <div class="input-field col s12 m3">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>消費税 : 999,999,999</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--空白-->
+                  <div class="input-field col s12 m3">
+                    &nbsp;
+                  </div>
+                  </div>
+                  <div class="row">
+                  <!--依頼元得意先-->
+                  <div class="input-field col s12 m6">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>依頼元得意先：</p>
+                        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--依頼元得意先-->
+                  <div class="input-field col s12 m6">
+                    <div id="card-alert" class="card cyan lighten-5">
+                      <div class="card-content cyan-text">
+                        <p>工事件名：</p>
+                        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <!-- 製造番号入力ヘッダ End -->
+            <!-- 製造番号入力明細 Start -->
+            <div class="row">
+              <div class="col s6 offset-m3">
+                <div id="serialNumberList"></div>
+                  <ul class="sekou-list" id="sekoulist"></ul>
+              </div>
+            </div>
+            <!-- 製造番号入力明細 End -->
+          </div>
+        </section>
+      </div>
+      <!-- END WRAPPER -->
+    </div>
+    <!-- END MAIN -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- ================================================
+    Scripts
+    ================================================ -->
+    <!-- jQuery Library -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-3.2.1.min.js")"></script>
+    <!--angularjs-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/angular.min.js")"></script>
+    <!--materialize js-->
+    <script type="text/javascript" src="@routes.Assets.at("js/materialize.js")"></script>
+    <!--jsgrid js-->
+    <script type="text/javascript" src="@routes.Assets.at("/js/jsgrid.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("/js/i18n/jsgrid-fr.js")"></script>
+    <!--prism-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/prism/prism.js")"></script>
+    <!--scrollbar-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.min.js")"></script>
+    <!-- chartist -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/additional-methods.min.js")"></script>
+    <!--sweetalert -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.min.js")"></script>
+    <!--data-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jsgrid/js/jsgrid.js")"></script>
+     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+    <script type="text/javascript" src="@routes.Assets.at("js/plugins.js")"></script>
+    <!--custom-script.js - Add your own theme custom JS-->
+    <script type="text/javascript" src="@routes.Assets.at("js/custom-script.js")"></script>
+    <!-- MY SYSTEM -->
+    <script type="text/javascript" src="@routes.Assets.at("js/weos.js")"></script>
+    <!-- MY APP -->
+    <script type="text/javascript" src="@routes.Assets.at("js/serialnumber.js")"></script>
+  </body>
+</html>

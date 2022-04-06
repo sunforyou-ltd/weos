@@ -1,0 +1,882 @@
+package models;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import parameter.MtmRetrievalMatch;
+import play.Logger;
+import play.db.ebean.Model;
+
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlRow;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
+
+/**
+ * 【WAAS】見積ヘッダ
+ *
+ * @author SunForYou.Ltd
+ *
+ */
+@Entity
+public class MtmHead extends Model {
+
+    /**
+     * 見積No.
+     * 通常の見積番号  ：0000000000
+     * 一時保存見積番号：XXXXXXYYYYMMDDHHMMSS(XXXXXXXはユーザＩＤ)
+     */
+    @Id
+    public String mitumoriNo;
+    /**
+     * 枝番
+     */
+    @Id
+    public long edaban;
+    /**
+     * オーダー番号
+     */
+    public String orderNo;
+    /**
+     * 管理番号
+     */
+    public String kanriNo;
+    /**
+     * 工事件名
+     */
+    public String kojiKenmei;
+    /**
+     * 依頼納期
+     */
+    public String iraiNoki;
+    /**
+     * 回答納期
+     */
+    public String kaitoNoki;
+    /**
+     * 見積依頼日
+     */
+    public String mitumoriIraibi;
+    /**
+     * 見積回答日
+     */
+    public String mitumoriKaitoubi;
+    /**
+     * 得意先名称
+     */
+    public String tokuisakiName;
+    /**
+     * 納品先郵便
+     */
+    public String nohinsakiYubin;
+    /**
+     * 納品先住所１
+     */
+    public String nohinsakiAdd1;
+    /**
+     * 納品先住所２
+     */
+    public String nohinsakiAdd2;
+    /**
+     * 納品先電話番号
+     */
+    public String nohinsakiTel;
+    /**
+     * 納品先FAX
+     */
+    public String nohinsakiFax;
+    /**
+     * 最終見積金額
+     */
+    public long saisyuMitumoriGokei;
+    /**
+     * 見積合計金額
+     */
+    public long mitumoriGokei;
+    /**
+     * 値引額
+     */
+    public long nebikiGaku;
+    /**
+     * 値引率
+     */
+    public long nebikiRitu;
+    /**
+     * 改造承認No
+     */
+    public String kaizoSyoninNo;
+    /**
+     * 改造管理No
+     */
+    public String koubaiKanriNo;
+    /**
+     * 運賃請求先
+     */
+    public String untinSeikyu;
+    /**
+     * 改造費請求先
+     */
+    public String kaizouhiSeikyu;
+    /**
+     * 指定色
+     */
+    public String paneruColor;
+    /**
+     * 設置場所
+     */
+    public String settiBasyo;
+    /**
+     * 備考1
+     */
+    public String bikou_1;
+    /**
+     * 備考2
+     */
+    public String bikou_2;
+    /**
+     * 備考3
+     */
+    public String bikou_3;
+    /**
+     * 見積依頼会社コード
+     */
+    public String mitumoriIraiKaisya;
+    /**
+     * 見積依頼支店コード
+     */
+    public String mitumoriIraiSiten;
+    /**
+     * 作成ユーザID
+     */
+    public String sakuseiUid;
+    /**
+     * 回答ユーザID
+     */
+    public String kaitouUid;
+    /**
+     * 受注確定フラグ
+     */
+    public String kakuteiFlg;
+    /**
+     * 見積状態
+     */
+    public String mitumoriJotai;
+    /**
+     * 削除フラグ
+     */
+    public String sakujoFlg;
+    /**
+     * 更新ユーザID
+     */
+    public String koshinUid;
+    /**
+     * 更新プログラムID
+     */
+    public String koshinPid;
+    /**
+     * 更新日付
+     */
+    public Timestamp koushinDate;
+    /**
+     * 見積依頼部門コード
+     */
+    public String mitumoriIraiBumon;
+    /**
+     * 発令元コード
+     */
+    public String hatsureimotoCode;
+    /**
+     * 得意先コード
+     */
+    public String tokuisakiCode;
+    /**
+     * 弥生出力フラグ
+     */
+    public String renkeiput;
+    /**
+     * 表示値引額
+     */
+    public long refnebikigaku;
+    /**
+     * 値引単価
+     */
+    public long nebikitanka;
+    /**
+     * 印刷用見積合計額
+     */
+    public long pmitumoriGokei;
+    /**
+     * 見積用支店名
+     */
+    public String sitenName;
+    /**
+     * 見積用担当名
+     */
+    public String tantouName;
+    /**
+     * 工程納期1
+     */
+    public String kouteiNouki1;
+    /**
+     * 工程納期2
+     */
+    public String kouteiNouki2;
+    /**
+     * 工程納期3
+     */
+    public String kouteiNouki3;
+
+    public static Finder<Long, MtmHead> find = new Finder<Long, MtmHead>(Long.class, MtmHead.class);
+
+    /**
+     * 見積件名ステータス
+     * @author kimura
+     *
+     */
+    public class Stts {
+    	/**
+    	 * 見積依頼
+    	 */
+    	public static final String MT_INPUT 	= "10";
+    	/**
+    	 * 見積回答済
+    	 */
+    	public static final String MT_ANSER 	= "20";
+    	/**
+    	 * 発注
+    	 */
+    	public static final String MT_ORDER 	= "25";
+    	/**
+    	 * 受注確定
+    	 */
+    	public static final String MT_COMMIT 	= "30";
+    	/**
+    	 * 施工完了
+    	 */
+    	public static final String MT_SEKOU 	= "40";
+    }
+    /**
+     * 見積件名ステータス名称
+     * @author kimura
+     *
+     */
+    public class SttsName {
+    	/**
+    	 * 見積依頼
+    	 */
+    	public static final String MT_INPUT 	= "見積依頼中";
+    	/**
+    	 * 見積回答済
+    	 */
+    	public static final String MT_ANSER 	= "見積回答済";
+    	/**
+    	 * 発注
+    	 */
+    	public static final String MT_ORDER 	= "発注";
+    	/**
+    	 * 受注確定
+    	 */
+    	public static final String MT_COMMIT 	= "受注確定";
+    	/**
+    	 * 施工完了
+    	 */
+    	public static final String MT_SEKOU 	= "施工完了";
+    }
+    /**
+     * 削除フラグ
+     * @author kimura
+     *
+     */
+    public class DeleteFlag {
+    	/**
+    	 * 有効データ
+    	 */
+    	public static final String NOMAL 	= "0";
+    	/**
+    	 * 削除データ
+    	 */
+    	public static final String DELETE 	= "1";
+    	/**
+    	 * 一時保存データ
+    	 */
+    	public static final String SAVE 	= "9";
+    }
+    /**
+     * 確定フラグ
+     * @author kimura
+     *
+     */
+    public class KakuteiFlag {
+      /**
+       * 未受注確定
+       */
+      public static final String MITEI    = "0";
+      /**
+       * 受注確定
+       */
+      public static final String KAKUTEI  = "1";
+    }
+    /**
+     * 更新プログラムＩＤ
+     * @author kimura
+     *
+     */
+    public class UpdatePID {
+      /**
+       * 見積作成／回答画面
+       */
+      public static final String ESTIMATE       = "SWEG000100";
+      /**
+       * 製造番号入力画面
+       */
+      public static final String SERIALNUMBER   = "SWEG000400";
+    }
+    /**
+     * 弥生出力フラグ
+     * @author kimura
+     *
+     */
+    public class RenkeiFlag {
+    	/**
+    	 * 未出力
+    	 */
+    	public static final String NOPUT 	= "0";
+    	/**
+    	 * 出力済
+    	 */
+    	public static final String PUT 	= "1";
+    }
+    /**
+     * 渡された見積番号を正規番号に変換します
+     * @param pMtmno
+     */
+    public static String MitumoriNoFixed(String pMtmno) {
+    	String result = "000000000";
+    	try
+    	{
+    		result = String.format("%010d", Long.parseLong(pMtmno));
+    	}
+    	catch (NumberFormatException nex){
+
+    	}
+    	return result;
+    }
+
+
+    /**
+     * 見積依頼中の件数を取得します
+     * @return
+     */
+    public static int GetMTInput() {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_INPUT).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 見積依頼中の件数を取得します
+     * @return
+     */
+    public static int GetMTInput(String pKaisyaCd, String pShitenCd) {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_INPUT).eq("mitumori_irai_kaisya", pKaisyaCd).eq("mitumori_irai_siten", pShitenCd).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 見積回答済の件数を取得します
+     * @return
+     */
+    public static int GetMTAnser() {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_ANSER).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 見積回答済の件数を取得します
+     * @return
+     */
+    public static int GetMTAnser(String pKaisyaCd, String pShitenCd) {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_ANSER).eq("mitumori_irai_kaisya", pKaisyaCd).eq("mitumori_irai_siten", pShitenCd).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 発注の件数を取得します
+     * @return
+     */
+    public static int GetMTOrder() {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_ORDER).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 発注の件数を取得します
+     * @return
+     */
+    public static int GetMTOrder(String pKaisyaCd, String pShitenCd) {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_ORDER).eq("mitumori_irai_kaisya", pKaisyaCd).eq("mitumori_irai_siten", pShitenCd).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 受注確定の件数を取得します
+     * @return
+     */
+    public static int GetMTCommit() {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_COMMIT).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 受注確定の件数を取得します
+     * @return
+     */
+    public static int GetMTCommit(String pKaisyaCd, String pShitenCd) {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_COMMIT).eq("mitumori_irai_kaisya", pKaisyaCd).eq("mitumori_irai_siten", pShitenCd).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 施工完了の件数を取得します
+     * @return
+     */
+    public static int GetMTSekou() {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_SEKOU).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 施工完了の件数を取得します
+     * @return
+     */
+    public static int GetMTSekou(String pKaisyaCd, String pShitenCd) {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", Stts.MT_SEKOU).eq("mitumori_irai_kaisya", pKaisyaCd).eq("mitumori_irai_siten", pShitenCd).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList.size();
+    }
+    /**
+     * 渡されたステータスに一致する見積件名を取得します
+     * @return
+     */
+    public static List<MtmHead> GetMTStts(String pStts) {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", pStts).eq("sakujo_flg", DeleteFlag.NOMAL).orderBy("mitumori_no").findList();
+    	return dataList;
+    }
+    /**
+     * 渡されたステータスに一致する見積件名を取得します
+     * @return
+     */
+    public static List<MtmHead> GetMTStts(String pStts,String pKaisyaCd, String pShitenCd) {
+    	List<MtmHead> dataList = MtmHead.find.where().eq("mitumori_jotai", pStts).eq("mitumori_irai_kaisya", pKaisyaCd).eq("mitumori_irai_siten", pShitenCd).eq("sakujo_flg", DeleteFlag.NOMAL).findList();
+    	return dataList;
+    }
+    /**
+     * 決済アラートデータを取得します
+     * @return
+     */
+    public static List<MtmHead> GetKessaiAlert(String pKaisyaCd) {
+
+      StringBuffer sb = new StringBuffer();
+      sb.append(" SELECT mtm_head.* ");
+      sb.append(" FROM mtm_head ");
+      sb.append(" INNER JOIN (SELECT * FROM mst_shiten WHERE kennaigai_flg = '0') ms ");
+      sb.append(" ON mtm_head.mitumori_irai_kaisya = ms.kaisya_cd AND mtm_head.mitumori_irai_siten = ms.shiten_cd ");
+      sb.append(" WHERE (mtm_head.koubai_kanri_no is not null AND mtm_head.koubai_kanri_no <> '') ");
+      sb.append(" AND (mtm_head.kaizo_syonin_no is null or trim(mtm_head.kaizo_syonin_no) = '') ");
+      sb.append(" AND mtm_head.mitumori_jotai = '" + Stts.MT_ANSER + "' ");
+      sb.append(" AND mtm_head.sakujo_flg = '" + DeleteFlag.NOMAL +"' ");
+      sb.append(" AND mtm_head.mitumori_irai_kaisya = '" + pKaisyaCd +"' ");
+      sb.append(" ORDER BY mtm_head.mitumori_no ");
+      List<SqlRow> sqlRows = Ebean.createSqlQuery(sb.toString()).findList();
+
+      List<MtmHead> headerList = new ArrayList<MtmHead>();
+
+      for (SqlRow data : sqlRows) {
+        MtmHead head = new MtmHead();
+        head.mitumoriNo = data.getString("mitumori_no");
+        head.kanriNo = data.getString("kanri_no");
+        head.mitumoriJotai = data.getString("mitumori_jotai");
+        head.iraiNoki = data.getString("irai_noki");
+        head.kaitoNoki = data.getString("kaito_noki");
+        head.kojiKenmei = data.getString("koji_kenmei");
+        head.tokuisakiName = data.getString("tokuisaki_name");
+        head.sakuseiUid = data.getString("sakusei_uid");
+
+        headerList.add(head);
+
+      }
+
+      return headerList;
+
+    }
+    /**
+     * 回答待ちアラートデータを取得します
+     * @return
+     */
+    public static List<MtmHead> GetAnserAlert() {
+
+      StringBuffer sb = new StringBuffer();
+      sb.append(" SELECT mtm_head.* ");
+      sb.append(" FROM mtm_head ");
+      sb.append(" WHERE (mtm_head.irai_noki is not null or mtm_head.irai_noki <> '') ");
+      sb.append(" AND (mtm_head.kaito_noki is null or trim(mtm_head.kaito_noki) = '') ");
+      sb.append(" AND mtm_head.sakujo_flg = '" + DeleteFlag.NOMAL +"' ");
+      sb.append(" ORDER BY mtm_head.mitumori_no ");
+      List<SqlRow> sqlRows = Ebean.createSqlQuery(sb.toString()).findList();
+
+      List<MtmHead> headerList = new ArrayList<MtmHead>();
+
+      for (SqlRow data : sqlRows) {
+        MtmHead head = new MtmHead();
+        head.mitumoriNo = data.getString("mitumori_no");
+        head.kanriNo = data.getString("kanri_no");
+        head.mitumoriJotai = data.getString("mitumori_jotai");
+        head.iraiNoki = data.getString("irai_noki");
+        head.kaitoNoki = data.getString("kaito_noki");
+        head.kojiKenmei = data.getString("koji_kenmei");
+        head.tokuisakiName = data.getString("tokuisaki_name");
+        head.sakuseiUid = data.getString("sakusei_uid");
+
+        headerList.add(head);
+
+      }
+
+      return headerList;
+
+    }
+    /**
+     * 一時保存アラートデータを取得します
+     * @return
+     */
+    public static List<MtmHead> GetSaveAlert(String pUserId) {
+
+      StringBuffer sb = new StringBuffer();
+      sb.append(" SELECT mtm_head.* ");
+      sb.append(" FROM mtm_head ");
+      sb.append(" WHERE mtm_head.sakujo_flg = '" + DeleteFlag.SAVE +"' ");
+      sb.append(" AND mtm_head.mitumori_no LIKE '" + pUserId +"%' ");
+      sb.append(" ORDER BY mtm_head.mitumori_no ");
+      List<SqlRow> sqlRows = Ebean.createSqlQuery(sb.toString()).findList();
+
+      List<MtmHead> headerList = new ArrayList<MtmHead>();
+
+      for (SqlRow data : sqlRows) {
+        MtmHead head = new MtmHead();
+        head.mitumoriNo = data.getString("mitumori_no");
+        head.kanriNo = data.getString("kanri_no");
+        head.mitumoriJotai = data.getString("mitumori_jotai");
+        head.iraiNoki = data.getString("irai_noki");
+        head.kaitoNoki = data.getString("kaito_noki");
+        head.kojiKenmei = data.getString("koji_kenmei");
+        head.tokuisakiName = data.getString("tokuisaki_name");
+        head.sakuseiUid = data.getString("sakusei_uid");
+
+        headerList.add(head);
+
+      }
+
+      return headerList;
+
+    }
+
+    /**
+     * 見積検索による見積データを取得します
+     * @return
+     */
+    public static List<MtmHead> GetMitumoriRetrieval(MtmRetrievalMatch pMrm) {
+
+      StringBuffer sb = new StringBuffer();
+      sb.append(" SELECT mtm_head.* ");
+      sb.append(" FROM mtm_head ");
+      sb.append(" WHERE mtm_head.sakujo_flg = '0' ");
+      //見積番号
+      if (!"".equals(pMrm.mtmnof)) {
+          sb.append(" AND mtm_head.mitumori_no >= '"+ MitumoriNoFixed(pMrm.mtmnof) +"' ");
+      }
+      if (!"".equals(pMrm.mtmnot)) {
+          sb.append(" AND mtm_head.mitumori_no <= '"+ MitumoriNoFixed(pMrm.mtmnot) +"' ");
+      }
+      //管理番号
+      if (!"".equals(pMrm.kanri)) {
+          sb.append(" AND mtm_head.kanri_no LIKE '%"+ pMrm.kanri +"%' ");
+      }
+      //依頼納期
+      if (!"".equals(pMrm.requef)) {
+          sb.append(" AND mtm_head.irai_noki >= '"+ pMrm.requef.replaceAll("/", "") +"' ");
+      }
+      if (!"".equals(pMrm.requet)) {
+          sb.append(" AND mtm_head.irai_noki <= '"+ pMrm.requet.replaceAll("/", "") +"' ");
+      }
+      //回答納期
+      if (!"".equals(pMrm.anserf)) {
+          sb.append(" AND mtm_head.kaito_noki >= '"+ pMrm.anserf.replaceAll("/", "") +"' ");
+      }
+      if (!"".equals(pMrm.ansert)) {
+          sb.append(" AND mtm_head.kaito_noki <= '"+ pMrm.ansert.replaceAll("/", "") +"' ");
+      }
+      //作業件名
+      if (!"".equals(pMrm.kenmei)) {
+          sb.append(" AND mtm_head.koji_kenmei LIKE '%"+ pMrm.kenmei +"%' ");
+      }
+      //得意先番号
+      if (!"".equals(pMrm.tokuno)) {
+          sb.append(" AND mtm_head.tokuisaki_code = '"+ pMrm.tokuno +"' ");
+      }
+      //得意先名称
+      if (!"".equals(pMrm.tokunm)) {
+          sb.append(" AND mtm_head.tokuisaki_name LIKE '%"+ pMrm.tokunm +"%' ");
+      }
+      if (!(pMrm.StatusAllOnCheck() || pMrm.StatusAllOffCheck())) {
+          sb.append(" AND mtm_head.mitumori_jotai IN ('" + pMrm.ChangeSttsInput() + "','" + pMrm.ChangeSttsAnser() + "','" + pMrm.ChangeSttsOrder() + "','" + pMrm.ChangeSttsCommit() + "','" + pMrm.ChangeSttsSekou() + "') ");
+      }
+      //会社コード
+      if (!"".equals(pMrm.kaisya)) {
+          sb.append(" AND mtm_head.mitumori_irai_kaisya = '"+ pMrm.kaisya +"' ");
+      }
+      //支店コード
+      if (!"".equals(pMrm.shiten)) {
+          sb.append(" AND mtm_head.mitumori_irai_siten = '"+ pMrm.shiten +"' ");
+      }
+      //部門コード
+      if (!"".equals(pMrm.bumon)) {
+          sb.append(" AND mtm_head.mitumori_irai_bumon = '"+ pMrm.bumon +"' ");
+      }
+      sb.append(" ORDER BY mtm_head.mitumori_no ");
+
+      Logger.info("[Retrieval] SQL={}", sb.toString());
+
+      List<SqlRow> sqlRows = Ebean.createSqlQuery(sb.toString()).findList();
+
+      List<MtmHead> headerList = new ArrayList<MtmHead>();
+
+      for (SqlRow data : sqlRows) {
+        MtmHead head = new MtmHead();
+        head.mitumoriNo = data.getString("mitumori_no");
+        head.kanriNo = data.getString("kanri_no");
+        head.mitumoriJotai = data.getString("mitumori_jotai");
+        head.iraiNoki = data.getString("irai_noki");
+        head.kaitoNoki = data.getString("kaito_noki");
+        head.kojiKenmei = data.getString("koji_kenmei");
+        head.tokuisakiName = data.getString("tokuisaki_name");
+        head.sakuseiUid = data.getString("sakusei_uid");
+
+        headerList.add(head);
+
+      }
+
+      return headerList;
+
+    }
+
+    /**
+     * 売上伝票検索による見積データを取得します
+     * @return
+     */
+    public static List<MtmHead> GetDenpyoRetrieval(MtmRetrievalMatch pMrm) {
+
+      StringBuffer sb = new StringBuffer();
+      sb.append(" SELECT mtm_head.*,com.detailinfo1 ");
+      sb.append(" ,mst_kaisya.kaisya_name ");
+      sb.append(" ,mst_shiten.shiten_name ");
+      sb.append(" ,mst_bumon.bumon_name ");
+      sb.append(" ,mst_user.shimei_kanji ");
+      sb.append(" FROM mtm_head ");
+      sb.append(" LEFT OUTER JOIN mst_kaisya ON mtm_head.mitumori_irai_kaisya = mst_kaisya.kaisya_cd ");
+      sb.append(" LEFT OUTER JOIN mst_shiten ON mtm_head.mitumori_irai_kaisya = mst_shiten.kaisya_cd AND mtm_head.mitumori_irai_siten = mst_shiten.shiten_cd ");
+      sb.append(" LEFT OUTER JOIN mst_bumon ON mtm_head.mitumori_irai_kaisya = mst_bumon.kaisya_cd AND mtm_head.mitumori_irai_siten = mst_bumon.shiten_cd AND mtm_head.mitumori_irai_bumon = mst_bumon.bumon_cd ");
+      sb.append(" LEFT OUTER JOIN mst_user ON mtm_head.sakusei_uid = mst_user.user_id ");
+      sb.append(" LEFT OUTER JOIN (SELECT * FROM mst_common where bunruicd = '02') com ");
+      sb.append(" ON mtm_head.mitumori_jotai = com.infocd ");
+      sb.append(" WHERE mtm_head.sakujo_flg = '0' ");
+      sb.append(" AND mtm_head.mitumori_jotai IN ('" + Stts.MT_COMMIT + "','" + Stts.MT_SEKOU + "') ");
+      //見積番号
+      if (!"".equals(pMrm.mtmnof)) {
+          sb.append(" AND mtm_head.mitumori_no >= '"+ MitumoriNoFixed(pMrm.mtmnof) +"' ");
+      }
+      if (!"".equals(pMrm.mtmnot)) {
+          sb.append(" AND mtm_head.mitumori_no <= '"+ MitumoriNoFixed(pMrm.mtmnot) +"' ");
+      }
+      //依頼納期
+      if (!"".equals(pMrm.requef)) {
+          sb.append(" AND mtm_head.irai_noki >= '"+ pMrm.requef.replaceAll("/", "") +"' ");
+      }
+      if (!"".equals(pMrm.requet)) {
+          sb.append(" AND mtm_head.irai_noki <= '"+ pMrm.requet.replaceAll("/", "") +"' ");
+      }
+      //作業件名
+      if (!"".equals(pMrm.kenmei)) {
+          sb.append(" AND mtm_head.koji_kenmei LIKE '%"+ pMrm.kenmei +"%' ");
+      }
+      //会社コード
+      if (!"".equals(pMrm.kaisya)) {
+          sb.append(" AND mtm_head.mitumori_irai_kaisya = '"+ pMrm.kaisya +"' ");
+      }
+      //支店コード
+      if (!"".equals(pMrm.shiten)) {
+          sb.append(" AND mtm_head.mitumori_irai_siten = '"+ pMrm.shiten +"' ");
+      }
+      sb.append(" ORDER BY mtm_head.mitumori_no,mtm_head.edaban LIMIT 500 ");
+
+      Logger.info("[Retrieval] SQL={}", sb.toString());
+
+      List<SqlRow> sqlRows = Ebean.createSqlQuery(sb.toString()).findList();
+
+      List<MtmHead> headerList = new ArrayList<MtmHead>();
+
+      for (SqlRow data : sqlRows) {
+        MtmHead head = new MtmHead();
+        head.mitumoriNo = data.getString("mitumori_no");
+        head.edaban = Long.parseLong(data.getString("edaban"));
+        head.kanriNo = data.getString("kanri_no");
+        head.mitumoriJotai = data.getString("mitumori_jotai");
+        head.iraiNoki = data.getString("irai_noki");
+        head.kaitoNoki = data.getString("kaito_noki");
+        head.kojiKenmei = data.getString("koji_kenmei");
+        head.tokuisakiName = data.getString("tokuisaki_name");
+        head.mitumoriIraiKaisya = data.getString("mitumori_irai_kaisya");
+        head.mitumoriIraiSiten = data.getString("mitumori_irai_siten");
+        head.saisyuMitumoriGokei = Long.parseLong(data.getString("saisyu_mitumori_gokei"));
+        head.sakuseiUid = data.getString("sakusei_uid");
+        head.renkeiput = data.getString("renkeiput");
+
+        headerList.add(head);
+
+      }
+
+      return headerList;
+
+    }
+
+    /**
+     * 対象見積番号の最大枝番を取得します
+     * @return
+     */
+    public static long GetMaxEdaban(String pMtmno) {
+
+      long edaban = 0;
+
+      StringBuffer sb = new StringBuffer();
+      sb.append(" SELECT mtm_head.edaban ");
+      sb.append(" FROM mtm_head ");
+      sb.append(" WHERE mtm_head.sakujo_flg = '" + DeleteFlag.NOMAL +"' ");
+      sb.append(" AND mtm_head.mitumori_no = '" + MitumoriNoFixed(pMtmno) +"' ");
+      sb.append(" ORDER BY  mtm_head.edaban desc");
+      List<SqlRow> sqlRows = Ebean.createSqlQuery(sb.toString()).findList();
+
+      if (sqlRows.size() > 0) {
+    	  SqlRow data = sqlRows.get(0);
+    	  if (data != null) {
+        	  edaban = data.getLong("edaban");
+    	  }
+      }
+
+      return edaban;
+
+    }
+    /**
+     * 見積状態を更新します
+     * @param pStts
+     * @return
+     */
+    public boolean updateStts(String pStts) {
+    	boolean result = false;
+        StringBuffer sb = new StringBuffer();
+        sb.append(" UPDATE mtm_head ");
+        sb.append(" SET mitumori_jotai = '" + pStts + "' ");
+        sb.append(" WHERE mitumori_no = '" + MitumoriNoFixed(this.mitumoriNo) +"' ");
+        sb.append(" AND edaban = '" + this.edaban +"' ");
+        int update = Ebean.createSqlUpdate(sb.toString()).execute();
+        if (update > 0) {
+        	result = true;
+        }
+        return result;
+    }
+
+    /**
+     * 対象見積を削除します
+     * @param mtmno
+     * @param edaban
+     * @param user
+     * @return
+     */
+    public static boolean deleteData(String pMtmno, long pEdaban, String uid) {
+        boolean result = false;
+        StringBuffer sb = new StringBuffer();
+
+        //更新SQLの作成
+        sb.append("UPDATE mtm_head ");
+        sb.append(" SET sakujo_flg = '" + DeleteFlag.DELETE + "' ");
+        sb.append("    ,koushin_date = Now() ");
+        sb.append(" WHERE mitumori_no = '"  + pMtmno +  "' ");
+        sb.append(" AND edaban = "  + pEdaban + " ");
+        //SQLの実行
+        int update = Ebean.createSqlUpdate(sb.toString()).execute();
+        if (update > 0) {
+        	result = true;
+        }
+        return result;
+    }
+
+    /**
+     * 弥生出力フラグを更新します
+     * @param pStts
+     * @return
+     */
+    public static boolean updateRenkeiput(String pMtmno, long pEdaban,String pRenkei,String uid) {
+    	boolean result = false;
+        StringBuffer sb = new StringBuffer();
+        sb.append("UPDATE mtm_head ");
+        sb.append(" SET renkeiput = '" + pRenkei + "' ");
+        sb.append("    ,koshin_uid  = '" + uid + "' ");
+        sb.append("    ,koushin_date = Now() ");
+        sb.append(" WHERE mitumori_no = '"  + pMtmno +  "' ");
+        sb.append(" AND edaban = "  + pEdaban + " ");
+        int update = Ebean.createSqlUpdate(sb.toString()).execute();
+        if (update > 0) {
+        	result = true;
+        }
+        return result;
+    }
+
+    /**
+     * 新規見積番号を採番します
+     * @return
+     */
+    public boolean commitMtmno() {
+        boolean result = false;
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT ");
+        sb.append(" COALESCE(max(mitumori_no),'0') AS mtmno ");
+        sb.append(" FROM ");
+        sb.append(" mtm_head ");
+        SqlRow sqlRows = Ebean.createSqlQuery(sb.toString()).findUnique();
+        if (sqlRows != null) {
+
+          long mtmno = sqlRows.getLong("mtmno");
+          mtmno++;
+          this.mitumoriNo = MitumoriNoFixed(String.valueOf(mtmno));
+        }
+        else {
+          this.mitumoriNo = MitumoriNoFixed("1");
+        }
+        this.edaban = 0;
+        result = true;
+        return result;
+    }
+    /**
+     * 新規オーダー番号を採番します
+     * @return
+     */
+    public boolean commitOrderno() {
+        boolean result = false;
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT ");
+        sb.append(" CASE WHEN max(order_no) = '' THEN '0' ELSE max(order_no) END AS orderno ");
+        sb.append(" FROM ");
+        sb.append(" mtm_head ");
+        SqlRow sqlRows = Ebean.createSqlQuery(sb.toString()).findUnique();
+        if (sqlRows != null) {
+
+          long orderno = sqlRows.getLong("orderno");
+          orderno++;
+          this.orderNo = MitumoriNoFixed(String.valueOf(orderno));
+        }
+        else {
+          this.orderNo = MitumoriNoFixed("1");
+        }
+        result = true;
+        return result;
+    }
+}

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <!--================================================================================
+  Item Name: Materialize - Material Design Admin Template
+  Version: 4.0
+  Author: PIXINVENT
+  Author URL: https://themeforest.net/user/pixinvent/portfolio
+================================================================================ -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="Web estimate of Sanden Techno">
+    <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
+    <title>テスト画面 | Web estimate of Sanden Techno</title>
+    <!-- Favicons-->
+    <link rel="icon" href="@routes.Assets.at("images/favicon/favicon-32x32.png")" sizes="32x32">
+    <!-- Favicons-->
+    <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/favicon/apple-touch-icon-152x152.png")">
+    <!-- For iPhone -->
+    <meta name="msapplication-TileColor" content="#00bcd4">
+    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
+    <!-- For Windows Phone -->
+    <!-- CORE CSS-->
+    <link href="@routes.Assets.at("css/themes/fixed-menu/materialize.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("css/themes/fixed-menu/style.css")" type="text/css" rel="stylesheet">
+    <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+    <link href="@routes.Assets.at("vendors/prism/prism.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid-theme.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/flag-icon/css/flag-icon.min.css")" type="text/css" rel="stylesheet">
+    <!-- Custome CSS-->
+    <link href="@routes.Assets.at("css/custom/custom.css")" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Start Page Loading -->
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <!-- End Page Loading -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START KATABAN -->
+    <!-- Modal Structure -->
+    <div id="kataban" class="modal modal-fixed-footer">
+    <div class="modal-content">
+	    <div class="row">
+	     <div class="col s12 white-text gradient-45deg-red-pink">
+	       <h4 class="header2"><i class="material-icons small">search</i>&nbsp; 製品型番検索</h4>
+	     </div>
+	    </div>
+	    <form class="" id="katabanform">
+	    <div class="row">
+	      <div class="input-field col s12 l4">
+	        <input id="katabans"  placeholder="XXXXXXXXXXXXXXXXXXXX" name="katabans" type="text">
+	        <label for="katabans" class="center-align">製品型番</label>
+	      </div>
+        <div class="col s12 l2">
+         <p>
+         <div class="chip cyan white-text z-depth-2 stts-chip" id="kataban-btn">
+           <a href="#" class="white-text">検索</a>
+         </div>
+         </p>
+        </div>
+	    </div>
+	    </form>
+	    <!--DataTables -->
+	    <div id="table-datatables">
+	      <div class="row">
+	        <div class="col s12">
+	          <div id="jsGridKataban"></div>
+	        </div>
+	      </div>
+	    </div>
+    </div>
+    <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">閉じる</a>
+    </div>
+    </div>
+    <!-- END KATABAN -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START HEADER -->
+    <header id="header" class="page-topbar">
+      <!-- start header nav-->
+      <div class="navbar-fixed">
+        <nav class="navbar-color">
+          <div class="nav-wrapper">
+            <ul class="left">
+              <li>
+                <h1 class="logo-wrapper">
+                  <a href="index.html" class="brand-logo darken-1">
+                    <img src=@routes.Assets.at("images/logo/materialize-logo.png") alt="materialize logo">
+                    <span class="logo-text hide-on-med-and-down">Web estimate of Sanden Techno</span>
+                  </a>
+                </h1>
+              </li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <i class="material-icons left">person</i><span id="kaisyaname"></span>&nbsp;&nbsp;<span id="shitenname"></span>&nbsp;&nbsp;<span id="username"></span>
+              </li>
+              <li>
+                &nbsp;
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <!-- end header nav-->
+    </header>
+    <!-- END HEADER -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START MAIN -->
+    <div id="main">
+      <!-- START WRAPPER -->
+      <div class="wrapper">
+        <!-- START LEFT SIDEBAR NAV-->
+        <aside id="left-sidebar-nav">
+          <ul id="slide-out" class="side-nav fixed leftside-navigation">
+            <li class="no-padding">
+              <div id="card-alert" class="card gradient-45deg-light-blue-cyan">
+                <div class="card-content white-text">
+                  <p><i class="material-icons small">info_outline</i>&nbsp; Main Menu</p>
+                </div>
+              </div>
+            </li>
+            <li class="no-padding">
+              <ul class="collapsible" data-collapsible="accordion">
+                <li class="bold" id="menu-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">toc</i>
+                    <span class="nav-text">メインメニュー</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan active">
+                    <i class="material-icons">dashboard</i>
+                    <span class="nav-text">見積件名管理</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMain">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan">
+                    <i class="material-icons">build</i>
+                    <span class="nav-text">マスタメンテナンス</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMst">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold" id="logout-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">directions_walk</i>
+                    <span class="nav-text">ログアウト</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only">
+            <i class="material-icons">menu</i>
+          </a>
+        </aside>
+        <!-- END LEFT SIDEBAR NAV-->
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <!-- START CONTENT -->
+        <section id="content">
+          <!--start container-->
+          <div class="container">
+				    <div class="row">
+				      <div class="col s12 m6 offset-m3 l4 offset-l4 z-depth-4 card-panel center">
+				        <form class="" id="testform">
+				          <div class="row margin">
+				            <div class="input-field col s12">
+				              <i class="material-icons prefix pt-5">search</i>
+				              <input id="mtmno"  placeholder="0000000000" name="mtmno" type="text">
+				              <label for="mtmno" class="center-align">見積番号</label>
+				            </div>
+				          </div>
+				          <div class="row margin">
+				            <div class="input-field col s12">
+                      <i class="material-icons prefix pt-5">search</i>
+				              <input id="edaban"  placeholder="00" name="edaban" type="text">
+				              <label for="edaban">枝番</label>
+				            </div>
+				          </div>
+				          <div class="row">
+				            <div class="input-field col s12">
+				              <a id="moveBtn" class="submit-btn btn waves-effect waves-light col s12" tabindex="2">製造番号入力画面へ</a>
+				            </div>
+				          </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      &nbsp;
+                    </div>
+                  </div>
+				        </form>
+				      </div>
+				    </div>
+          </div>
+        </section>
+        <!-- Modal Trigger -->
+        <a class="waves-effect waves-light btn modal-trigger" href="#kataban">製品</a>
+      </div>
+      <!-- END WRAPPER -->
+    </div>
+    <!-- END MAIN -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- ================================================
+    Scripts
+    ================================================ -->
+    <!-- jQuery Library -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-3.2.1.min.js")"></script>
+    <!--angularjs-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/angular.min.js")"></script>
+    <!--materialize js-->
+    <script type="text/javascript" src="@routes.Assets.at("js/materialize.js")"></script>
+    <!--prism-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/prism/prism.js")"></script>
+    <!--scrollbar-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.min.js")"></script>
+    <!-- chartist -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/additional-methods.min.js")"></script>
+    <!--sweetalert -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.min.js")"></script>
+    <!--data-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jsgrid/js/jsgrid.min.js")"></script>
+     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+    <script type="text/javascript" src="@routes.Assets.at("js/plugins.js")"></script>
+    <!--custom-script.js - Add your own theme custom JS-->
+    <script type="text/javascript" src="@routes.Assets.at("js/custom-script.js")"></script>
+    <!-- MY SYSTEM -->
+    <script type="text/javascript" src="@routes.Assets.at("js/weos.js")"></script>
+    <!-- MY APP -->
+    <script type="text/javascript" src="@routes.Assets.at("js/test.js")"></script>
+  </body>
+</html>

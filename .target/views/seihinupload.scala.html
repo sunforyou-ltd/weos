@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <!--================================================================================
+  Item Name: Materialize - Material Design Admin Template
+  Version: 4.0
+  Author: PIXINVENT
+  Author URL: https://themeforest.net/user/pixinvent/portfolio
+================================================================================ -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="Web estimate of Sanden Techno">
+    <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
+    <title>製品マスタEXCEL取込画面 | Web estimate of Sanden Techno</title>
+    <!-- Favicons-->
+    <link rel="icon" href="@routes.Assets.at("images/favicon/favicon-32x32.png")" sizes="32x32">
+    <!-- Favicons-->
+    <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/favicon/apple-touch-icon-152x152.png")">
+    <!-- For iPhone -->
+    <meta name="msapplication-TileColor" content="#00bcd4">
+    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
+    <!-- For Windows Phone -->
+    <!-- CORE CSS-->
+    <link href="@routes.Assets.at("css/themes/fixed-menu/materialize.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("css/themes/fixed-menu/style.css")" type="text/css" rel="stylesheet">
+    <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+    <link href="@routes.Assets.at("vendors/prism/prism.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/jsgrid/css/jsgrid-theme.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/dropify/css/dropify.min.css")" type="text/css" rel="stylesheet">
+    <link href="@routes.Assets.at("vendors/flag-icon/css/flag-icon.min.css")" type="text/css" rel="stylesheet">
+    <!-- Custome CSS-->
+    <link href="@routes.Assets.at("css/custom/custom.css")" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Start Page Loading -->
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <!-- End Page Loading -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START HEADER -->
+    <header id="header" class="page-topbar">
+      <!-- start header nav-->
+      <div class="navbar-fixed">
+        <nav class="navbar-color">
+          <div class="nav-wrapper">
+            <ul class="left">
+              <li>
+                <h1 class="logo-wrapper">
+                  <a href="index.html" class="brand-logo darken-1">
+                    <img src=@routes.Assets.at("images/logo/materialize-logo.png") alt="materialize logo">
+                    <span class="logo-text hide-on-med-and-down">Web estimate of Sanden Techno</span>
+                  </a>
+                </h1>
+              </li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <i class="material-icons left">person</i><span id="kaisyaname"></span>&nbsp;&nbsp;<span id="shitenname"></span>&nbsp;&nbsp;<span id="username"></span>
+              </li>
+              <li>
+                &nbsp;
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <!-- end header nav-->
+    </header>
+    <!-- END HEADER -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START MAIN -->
+    <div id="main">
+      <!-- START WRAPPER -->
+      <div class="wrapper">
+        <!-- START LEFT SIDEBAR NAV-->
+        <aside id="left-sidebar-nav">
+          <ul id="slide-out" class="side-nav fixed leftside-navigation">
+            <li class="no-padding">
+              <div id="card-alert" class="card gradient-45deg-light-blue-cyan">
+                <div class="card-content white-text">
+                  <p><i class="material-icons small">info_outline</i>&nbsp; Main Menu</p>
+                </div>
+              </div>
+            </li>
+            <li class="no-padding">
+              <ul class="collapsible" data-collapsible="accordion">
+                <li class="bold" id="menu-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">toc</i>
+                    <span class="nav-text">メインメニュー</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan active">
+                    <i class="material-icons">dashboard</i>
+                    <span class="nav-text">見積件名管理</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMain">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold">
+                  <a class="collapsible-header waves-effect waves-cyan">
+                    <i class="material-icons">build</i>
+                    <span class="nav-text">マスタメンテナンス</span>
+                  </a>
+                  <div class="collapsible-body">
+                    <ul id="menuMst">
+                    </ul>
+                  </div>
+                </li>
+                <li class="bold" id="logout-btn">
+                  <a class="waves-effect waves-cyan">
+                    <i class="material-icons">directions_walk</i>
+                    <span class="nav-text">ログアウト</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only">
+            <i class="material-icons">menu</i>
+          </a>
+        </aside>
+        <!-- END LEFT SIDEBAR NAV-->
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <!-- START CONTENT -->
+        <section id="content">
+          <!--start container-->
+          <div class="container">
+            <!--ファイルアップローダー-->
+            <div class="row">
+              <div class="col s12">
+              <!-- 空白 -->
+              &nbsp;
+              </div>
+            </div>
+            <div class="row">
+	            <form class="col s12 card-panel" id="retrieval-form">
+	              <div class="row">
+	                <div class="col s12 white-text gradient-45deg-blue-indigo">
+	                  <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; EXCEL→製品マスタ</h4>
+	                </div>
+	              </div>
+		            <!--file-upload-->
+		            <div id="file-upload" class="section">
+		              <div class="row section">
+		                <div class="col s12 l2">
+		                  <p>取込Excel</p>
+		                </div>
+		                <div class="col s12 l8">
+		                  <input type="file" id="input-file-now" class="dropify" data-default-file="" />
+		                </div>
+	                  <div class="col s12 l2">
+	                    <div class="chip event-btn gradient-45deg-indigo-light-blue white-text z-depth-2">
+	                      <a href="#" class="white-text" id="excel-upload"><i class="material-icons small">file_upload</i>&nbsp;&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;込</a>
+	                    </div>
+	                  </div>
+		              </div>
+	              </div>
+                <div class="row">
+                  <div class="col s12 white-text gradient-45deg-blue-indigo">
+                    <h4 class="header2"><i class="material-icons small">info_outline</i>&nbsp; 製品マスタ→EXCEL</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s12 l2 offset-l10">
+	                  <div class="chip event-btn gradient-45deg-indigo-light-blue white-text z-depth-2">
+	                    <a href="#" class="white-text" id="excel-download"><i class="material-icons small">file_download</i>&nbsp;&nbsp;出&nbsp;&nbsp;&nbsp;&nbsp;力</a>
+	                  </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- END 検索条件 -->
+              <!--DataTables -->
+              <div id="table-datatables">
+                <h4 class="header">&nbsp;チェック結果</h4>
+                  <div class="row"  id="error-area">
+                    <div class="col s12">
+									    <ul class="collection" id="error-list">
+									    </ul>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </section>
+      </div>
+      <!-- END WRAPPER -->
+    </div>
+    <!-- END MAIN -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- ================================================
+    Scripts
+    ================================================ -->
+    <!-- jQuery Library -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-3.2.1.min.js")"></script>
+    <!--angularjs-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/angular.min.js")"></script>
+    <!--materialize js-->
+    <script type="text/javascript" src="@routes.Assets.at("js/materialize.js")"></script>
+    <!--prism-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/prism/prism.js")"></script>
+    <!--scrollbar-->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/perfect-scrollbar/perfect-scrollbar.min.js")"></script>
+    <!--sweetalert -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/sweetalert/dist/sweetalert.min.js")"></script>
+    <!-- chartist -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("vendors/jquery-validation/additional-methods.min.js")"></script>
+    <!-- dropify -->
+    <script type="text/javascript" src="@routes.Assets.at("vendors/dropify/js/dropify.min.js")"></script>
+     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+    <script type="text/javascript" src="@routes.Assets.at("js/plugins.js")"></script>
+    <!--form-file-uploads.js - Page Specific JS codes-->
+    <script type="text/javascript" src="@routes.Assets.at("js/scripts/form-file-uploads.js")"></script>
+    <!--custom-script.js - Add your own theme custom JS-->
+    <script type="text/javascript" src="@routes.Assets.at("js/custom-script.js")"></script>
+    <!-- MY SYSTEM -->
+    <script type="text/javascript" src="@routes.Assets.at("js/weos.js")"></script>
+    <!-- MY APP -->
+    <script type="text/javascript" src="@routes.Assets.at("js/seihinupload.js")"></script>
+  </body>
+</html>

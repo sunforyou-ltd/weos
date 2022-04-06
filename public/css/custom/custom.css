@@ -1,0 +1,193 @@
+/*================================================================================
+	Item Name: Materialize - Material Design Admin Template
+	Version: 4.0
+	Author: PIXINVENT
+	Author URL: https://themeforest.net/user/pixinvent/portfolio
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN CSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*
+  見積ステータス選択オブジェクト
+*/
+.stts-chip {
+
+}
+/*
+  見積ステータス選択オブジェクト(未選択時)
+*/
+.stts-chip.nonselect {
+  background-color: #cccccc !important;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*
+  JQUERY-VARIDETUIN(エラーメッセージ)
+*/
+.errortext {
+	padding-top: -16px;
+  color: red !important;
+  font-size: 0.6rem;
+}
+/*
+  必須項目の項目名
+*/
+label.required {
+  color: #d32f2f !important;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*
+  パスワード変更モーダル
+*/
+#password-modal {
+	width: 480px !important;
+  height: 480px !important;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*
+  施工完了入力エリア
+*/
+#serialnumberarea {
+  height: 368px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+/*
+  施工完了リスト(リストアイテム)
+*/
+.serialnumber-card {
+	position: relative;
+  min-width: 100%;
+  min-height: 100%;
+  list-style-type : none !important;
+  border-left:8px solid #0d47a1;
+  padding: 0;
+  margin: 4px;
+}
+/*
+  施工完了リスト(型番)
+*/
+.serialnumber-card .kataban{
+  font-size: 1.2em;
+  text-align: left;
+}
+/*
+  施工完了リスト(改造内容)
+*/
+.serialnumber-card .kaizo{
+  font-size: 0.8em;
+  color: #aaaaaa;
+  text-align: left;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*
+  改造情報一覧
+*/
+ul.kaizo-list {
+  position: relative;
+  width: 100%;
+  height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+/*
+  改造情報リスト(リストアイテム)
+*/
+ul.kaizo-list li {
+  position: relative;
+  list-style-type : none !important;
+  border-left:8px solid #0d47a1;
+  padding: 4px 4px 4px 16px;
+  margin: 4px;
+}
+ul.kaizo-list li.bunno{
+  border-left:8px solid #d32f2f;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*
+  特殊改造情報一覧
+*/
+ul.tokusyu-list {
+  position: relative;
+  width: 100%;
+  height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+/*
+  改造情報リスト(リストアイテム)
+*/
+ul.tokusyu-list li {
+  position: relative;
+  list-style-type : none !important;
+  border-left:8px solid #0d47a1;
+  padding: 4px 4px 4px 16px;
+  margin: 4px;
+}
+ul.tokusyu-list li.bunno{
+  border-left:8px solid #d32f2f;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*
+  実行ボタン類
+*/
+.estimatebtn {
+	width: 148px !important;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+.error-text {
+  background-color: #ef9a9a !important;
+}
+.right-text {
+  text-align: right !important;
+}
+.cardadd {
+	display: inline-block;
+	width: 88px;
+	margin-top: -6px;
+  margin-left: 16px;
+  font-size: 0.8rem;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+#kataban-modal{
+  width: 100%;
+  min-width: 400px;
+  max-width: 800px;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+#button-modal {
+	width: 100%;
+	max-width: 400px;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+.anserupdate {
+  margin-top: 12px;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*
+  売上伝票作成
+*/
+.denpyo {
+	color: #aaaaaa !important;
+	font-size: 3rem;
+}
+.denpyo.active {
+  color: #0d47a1 !important;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*
+  製品EXCELアップロード
+*/
+.chip.event-btn {
+  min-width: 140px;
+  padding-left: 40px;
+  margin: 8px;
+}
+#error-list {
+  width: 100%;
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

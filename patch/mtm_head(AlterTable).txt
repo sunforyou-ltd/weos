@@ -1,0 +1,6 @@
+--mtm_head
+ALTER TABLE mtm_head ADD COLUMN seko_atena character varying(255);
+
+UPDATE mtm_head
+SET
+  seko_atena     = koji_kenmei;

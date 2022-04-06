@@ -1,0 +1,374 @@
+/*------------------------------------------*/
+/*----- 【WeoS】共通処理               -----*/
+/*------------------------------------------*/
+(function($) {
+  /*------------------------------------------*/
+  /*----- 【WeoS】メニューキー           -----*/
+  /*------------------------------------------*/
+  var menuSettingMain;
+  var menuSettingMst;
+
+  var menuSandenMain = [
+       {"link":"/Retrieval/moveretrieval","title":"見積検索(見積回答)","icon":"search"}
+      ,{"link":"/SerialNumber/moveretrieval","title":"製造番号入力","icon":"label"}
+      ,{"link":"/MakeDenpyo/moveretrieval","title":"売上伝票ファイル作成","icon":"cloud_download"}
+      ,{"link":"/movetest","title":"テスト画面","icon":"call_split"}
+  ];
+  var menuSandenMst = [
+      {"link":"/moveusermnt","title":"ユーザーマスタ","icon":"person"}
+     ,{"link":"#","title":"製品単価EXCEL取り込み","icon":"file_upload"}
+  ];
+  var menuNomalMain = [
+      {"link":"/addestimate","title":"見積作成(回答)","icon":"note_add"}
+     ,{"link":"/Retrieval/moveretrieval","title":"見積検索","icon":"search"}
+  ];
+  var menuNomalMst = [
+     {"link":"/moveusermnt","title":"ユーザーマスタ","icon":"person"}
+  ];
+  var menuKesaiMain = [
+     {"link":"/moveretrieval","title":"見積検索","icon":"search"}
+  ];
+  var menuKesaiMst = [
+  ];
+
+	/*------------------------------------------*/
+	/*----- 【WeoS】Enterキー処理          -----*/
+	/*------------------------------------------*/
+	// input項目をEnter キー、Shift+Enterキーでtab移動 without(button, hidden)
+	function fEnterChangeTab(){
+
+	  // ② input要素及び実行ボタンの選択。但し、ボタンとhidden型は除く。
+	  var oObject = ":input:not(:button):not(:hidden)";
+
+	  $(oObject).keypress(function(e) {
+	    var c = e.which ? e.which : e.keyCode; // クロスブラウザ対応
+	    if (c == 13) {
+	        var index = $(oObject).index(this); // indexは0～
+	        var cNext = "";
+	        var nLength = $(oObject).length;
+	        for(i=index;i<nLength;i++){
+	            cNext = e.shiftKey ? ":lt(" + index + "):last" : ":gt(" + index + "):first";
+	            // ③ 止まってはいけいない属性 readonly
+	            if ($(oObject + cNext).attr("readonly") == "readonly") {
+	                if (e.shiftKey) index--; // １つ前
+	                else index++;            // 次へ
+	            }
+	            // ③ 止まってはいけいない属性 disabled
+	            else if ($(oObject + cNext).prop("disabled") == true) {
+	                if (e.shiftKey) index--; // １つ前
+	                else index++;            // 次へ
+	            }
+	            else break;
+	        }
+	        if (index == nLength - 1) {
+	            if (! e.shiftKey){
+	                // 最後の項目なら、最初に移動。
+	                cNext = ":eq(1)";
+	            }
+	        }
+	        if (index == 0) {
+	            if (e.shiftKey) {
+	                // 最初の項目なら、最後に移動。
+	                cNext = ":eq(" + (nLength - 1) + ")";
+	            }
+	        }
+	        $(oObject + cNext).focus();
+	        e.defaultPrevented;
+	    }
+	  });
+	}
+	// ④onloadのタイミングでこの関数を実行
+	if(window.attachEvent){
+	    // IE用
+	    window.attachEvent('onload',fEnterChangeTab);
+	}
+	else if (window.opera){
+	    // opera用
+	    window.addEventListener('load',fEnterChangeTab,false);
+	}
+	else {
+	    // Mozilla用
+	    window.addEventListener('load',fEnterChangeTab,false);
+	}
+	/*------------------------------------------*/
+	/*----- 【WeoS】ユーザ情報表示         -----*/
+	/*------------------------------------------*/
+  $.ajax({
+      url: '/getuserinfo',
+      type: 'GET',
+      complete:function(data, status, jqXHR){					//処理成功時
+        var jsonResult = JSON.parse( data.responseText );		//戻り値用JSONデータの生成
+        var kaisya = $("#kaisyaname");
+        if (kaisya != undefined) {
+      	  kaisya.text(jsonResult.kaisyaName);
+        }
+        var shiten = $("#shitenname");
+        if (shiten != undefined) {
+      	  shiten.text(jsonResult.shitenName);
+        }
+        var user = $("#username");
+        if (user != undefined) {
+      	  user.text(jsonResult.shimeiKanji);
+        }
+
+  },
+    dataType:'json',
+    contentType:'text/json',
+    async: false
+  });
+  /*------------------------------------------------*/
+  /*----- 【WeoS】ユーザ権限によるメニュー制御 -----*/
+  /*------------------------------------------------*/
+  $.ajax({
+      url: '/getuserinfo',
+      type: 'GET',
+      complete:function(data, status, jqXHR){         //処理成功時
+        var jsonResult = JSON.parse( data.responseText );   //戻り値用JSONデータの生成
+        var kaisya = $("#kaisyaname");
+        if (kaisya != undefined) {
+          kaisya.text(jsonResult.kaisyaName);
+        }
+        var shiten = $("#shitenname");
+        if (shiten != undefined) {
+          shiten.text(jsonResult.shitenName);
+        }
+        var user = $("#username");
+        if (user != undefined) {
+          user.text(jsonResult.shimeiKanji);
+        }
+
+        //ページにメニューが存在した場合
+        var menuMain = $("#menuMain");
+        if (menuMain != undefined) {
+          if (jsonResult.kengen == "01") {
+            menuSettingMain = menuSandenMain;
+          }
+          else if (jsonResult.kengen == "03") {
+            menuSettingMain = menuKesaiMain;
+          }
+          else {
+            menuSettingMain = menuNomalMain;
+          }
+          menuMain.empty();
+          for (var key in menuSettingMain) {
+            var data = menuSettingMain[key];
+            menuMain.append('<li><a href="' + data.link + '"><i class="material-icons">' + data.icon + '</i><span>' + data.title +  '</span></a></li>');
+          }
+        }
+        //ページにマスタが存在した場合
+        var menuMst = $("#menuMst");
+        if (menuMst != undefined) {
+          if (jsonResult.kengen == "01") {
+            menuSettingMst = menuSandenMst;
+          }
+          else if (jsonResult.kengen == "03") {
+            menuSettingMst = menuKesaiMst;
+          }
+          else {
+            menuSettingMst = menuNomalMst;
+          }
+          menuMst.empty();
+          for (var key in menuSettingMst) {
+            var data = menuSettingMst[key];
+            menuMst.append('<li><a href="' + data.link + '"><i class="material-icons">' + data.icon + '</i><span>' + data.title +  '</span></a></li>');
+          }
+        }
+
+
+  },
+    dataType:'json',
+    contentType:'text/json',
+    async: false
+  });
+  /*--------------------------------------------*/
+  /*----- パスワード変更バリデーション定義 -----*/
+  /*--------------------------------------------*/
+  var passform = $("#password-form");
+  if (passform != undefined) {
+    $("#password-form").validate({
+      rules: {
+        "password":{
+          required: true,
+          maxlength: 10
+        },
+        "new-password":{
+          required: true,
+          maxlength: 10
+        },
+        "re-password":{
+            required: true,
+            maxlength: 10,
+            equalTo: "#new-password"
+        },
+      },
+      messages: {
+        "password":{
+          required: "必須入力です",
+          maxlength: "10桁以下で入力してください"
+  	    },
+        "new-password":{
+          required: "必須入力です",
+          maxlength: "10桁以下で入力してください"
+  	    },
+        "re-password":{
+          required: "必須入力です",
+          maxlength: "10桁以下で入力してください",
+          equalTo: "パスワードが一致しません"
+  	    }
+      },
+      errorElement: "em",
+      errorClass: "errortext"
+    });
+  }
+  /*------------------------------------------*/
+  /*----- パスワード変更確定ボタン押下時 -----*/
+  /*------------------------------------------*/
+  $.fn.passcommitclick = function() {
+    $(this).click(function() {
+
+        var json = {"password":$("#password").val(), "newpassword":$("#new-password").val()};
+
+	    $.ajax({
+	        url: '/passcommit',
+	        type: 'POST',
+	        data: JSON.stringify(json),
+	        complete:function(data, status, jqXHR){					//処理成功時
+	          var jsonResult = JSON.parse( data.responseText );		//戻り値用JSONデータの生成
+
+	          if (jsonResult.commit) {
+	        	  $("#password-modal").modal('close');
+	        	  Materialize.toast('パスワードを変更しました', 4000, 'rounded');
+	          }
+	          else {
+	        	  Materialize.toast('現在のパスワードが一致しません', 4000, 'rounded');
+	          }
+
+	      },
+	        dataType:'json',
+	        contentType:'text/json',
+	        async: false
+	      });
+    });
+  }
+  /*------------------------------------------*/
+  /*----- メインメニュークリック時       -----*/
+  /*------------------------------------------*/
+  $.fn.menuclick = function() {
+    $(this).click(function() {
+      swal({title: "画面遷移確認",
+        text: "メインメニューに戻りますか？<br />(保存されてない作業中の内容は破棄されます)",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "メインメニューへ",
+        cancelButtonText: "キャンセル",
+        html: true,
+        closeOnConfirm: false },
+        function(){
+          window.location = "/movemenu";
+      });
+    });
+  }
+  /*------------------------------------------*/
+  /*----- ログアウトクリック時       -----*/
+  /*------------------------------------------*/
+  $.fn.logoutclick = function() {
+    $(this).click(function() {
+	  $.ajax({
+	      url: '/logout',
+	      type: 'GET',
+	      complete:function(data, status, jqXHR){					//処理成功時
+	    	  var jsonResult = JSON.parse( data.responseText );		//戻り値用JSONデータの生成
+	    	  if (jsonResult.result == "success") {
+	    		  window.location = "/";
+	    	  }
+	      },
+	      dataType:'json',
+	      contentType:'text/json',
+	      async: false
+	  });
+    });
+  }
+  /*------------------------------------------*/
+  /*----- ドキュメント読み込み完了時     -----*/
+  /*------------------------------------------*/
+  $(document).ready(function(){
+    /*----- メインメニューボタン -----*/
+    var menu = $("#menu-btn");
+    if (menu != undefined) {
+      menu.menuclick();
+    }
+    /*----- ログアウトボタン -----*/
+    var logout = $("#logout-btn");
+    if (logout != undefined) {
+    	logout.logoutclick();
+    }
+    /*----- 日付オブジェクト設定 -----*/
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 10, // Creates a dropdown of 15 years to control year,
+        today: '本日',
+        clear: 'クリア',
+        close: '確定',
+        container: undefined, // ex. 'body' will append picker to body
+        closeOnSelect: true // Close upon selecting a date,
+    });
+    /*----- パスワード変更画面 -----*/
+    var passcommit = $("#password-modal");
+    if (passcommit != undefined) {
+    	$("#btnPasscommit").passcommitclick();
+    }
+    /*----- モーダル設定 -----*/
+    //$('.modal').modal();
+  });
+ })(jQuery);
+//--------------------------------------------------------------------------------------------------------------------//
+//- ここから外部関数                                                                                                  //
+//--------------------------------------------------------------------------------------------------------------------//
+/*------------------------------------------*/
+/*----- システム日付を西暦で取得       -----*/
+/*------------------------------------------*/
+function getNowYMD(){
+  var dt = new Date();
+  var y = dt.getFullYear();
+  var m = ("00" + (dt.getMonth()+1)).slice(-2);
+  var d = ("00" + dt.getDate()).slice(-2);
+  var result = y + "/" + m + "/" + d;
+  return result;
+}
+/*------------------------------------------*/
+/*----- 文字列⇒日付変換               -----*/
+/*------------------------------------------*/
+function toDate (str, delim) {
+	  var arr = str.split(delim)
+	  return new Date(arr[0], arr[1] - 1, arr[2]);
+};
+/*------------------------------------------*/
+/*----- 数値型大小比較                 -----*/
+/*------------------------------------------*/
+function checkNumberFromTo(pFrom, pTo) {
+	var iFrom = parseInt(pFrom);
+	var iTo = parseInt(pTo);
+
+	return iFrom <= iTo;
+}
+/*------------------------------------------*/
+/*----- 日付型大小比較                 -----*/
+/*------------------------------------------*/
+function checkDateFromTo(pFrom, pTo) {
+	var dFrom = toDate(pFrom, '/');
+	var dTo = toDate(pTo, '/');
+
+	return dFrom <= dTo;
+}
+/*------------------------------------------*/
+/*----- Enterイベント                  -----*/
+/*------------------------------------------*/
+function enterEvent(pObj, event) {
+	pObj.keypress( function ( e ) {
+		if ( e.which == 13 ) {
+			event.click();
+			return false;
+		}
+	} );
+}
